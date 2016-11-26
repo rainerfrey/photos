@@ -1,0 +1,3 @@
+rootProject.name = 'photos'
+include 'photo-store', 'photo-processor', 'zipkin-collector', 'eureka-server'
+

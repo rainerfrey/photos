@@ -1,0 +1,4 @@
+group 'de.mrfrey.photos'
+version '1.0.0'
+
+apply plugin: 'base'
