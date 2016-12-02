@@ -32,7 +32,7 @@ public class NewPhotoHandler {
 
     @StreamListener(Processor.INPUT)
     public void handleNewPhoto(String photoId) throws IOException {
-        ResponseEntity<InputStreamResource> entity = imageService.getForEntity("http://photo-store/photos/{photoId}/image", InputStreamResource.class, photoId);
+        ResponseEntity<InputStreamResource> entity = imageService.getForEntity("http://photo-store/photos/{photoId}/image/original", InputStreamResource.class, photoId);
         MediaType contentType = entity.getHeaders().getContentType();
         BufferedImage bufferedImage = scaler.scaleImage(entity.getBody().getInputStream(), contentType.getSubtype());
         URI url = fromHttpUrl("http://photo-store/photos/{photoId}/image/scaled").buildAndExpand(photoId).toUri();

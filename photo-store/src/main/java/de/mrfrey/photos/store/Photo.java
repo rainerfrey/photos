@@ -68,4 +68,10 @@ public class Photo {
     public void setMetadata(Map metadata) {
         this.metadata = metadata;
     }
+
+    public static enum Size {
+        original,
+        scaled,
+        thumbnail
+    }
 }

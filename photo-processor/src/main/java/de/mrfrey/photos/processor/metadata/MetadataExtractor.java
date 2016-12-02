@@ -36,7 +36,7 @@ public class MetadataExtractor {
     }
 
     public Map<String, Object> extractMetadata(String photoId) {
-        ResponseEntity<InputStreamResource> entity = imageService.getForEntity("http://photo-store/photos/{photoId}/image", InputStreamResource.class, photoId);
+        ResponseEntity<InputStreamResource> entity = imageService.getForEntity("http://photo-store/photos/{photoId}/image/original", InputStreamResource.class, photoId);
         try {
             return extractMetadata(entity.getBody().getInputStream());
         } catch (IOException | ImageProcessingException e) {

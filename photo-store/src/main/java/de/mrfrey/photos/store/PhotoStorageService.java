@@ -55,12 +55,20 @@ public class PhotoStorageService {
         }
     }
 
-    public GridFsResource getImageResource(ObjectId photoId, boolean scaled) {
+    public GridFsResource getImageResource(ObjectId photoId, Photo.Size size) {
         Photo photo = photoRepository.findOne(photoId);
-        GridFSDBFile file = gridfs.findOne(Query.query(Criteria.where("_id").is(scaled ? photo.getScaledFileId() : photo.getFileId())));
+        GridFSDBFile file = gridfs.findOne(Query.query(Criteria.where("_id").is(getImageId(photo, size))));
         if (file != null)
             return new GridFsResource(file);
         return null;
+    }
+
+    private ObjectId getImageId(Photo photo, Photo.Size size) {
+        switch (size) {
+            case original: return photo.getFileId();
+            case scaled: return photo.getScaledFileId();
+            default: throw new IllegalArgumentException("Unsupported file size " + size);
+        }
     }
 
     public Photo getPhoto(ObjectId photoId) {

@@ -28,8 +28,9 @@ public class PhotoController {
     @ResponseBody
     public Resource<Photo> get(@PathVariable("id") ObjectId id) {
         Link self = linkTo(methodOn(PhotoController.class).get(id)).withSelfRel();
-        Link image = linkTo(methodOn(ImageController.class).getImage(id)).withRel("image:original");
-        return new Resource<>(photoStorageService.getPhoto(id), self, image);
+        Link original = linkTo(methodOn(ImageController.class).getImage(id, Photo.Size.original)).withRel("image:original");
+        Link scaled = linkTo(methodOn(ImageController.class).getImage(id, Photo.Size.scaled)).withRel("image:scaled");
+        return new Resource<>(photoStorageService.getPhoto(id), self, original, scaled);
     }
 
     @PostMapping

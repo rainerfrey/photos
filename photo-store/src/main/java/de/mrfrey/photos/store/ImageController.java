@@ -25,20 +25,10 @@ public class ImageController {
         this.photoStorageService = photoStorageService;
     }
 
-    @GetMapping
+    @GetMapping("/{imageSize}")
     @ResponseBody
-    public ResponseEntity<StreamingResponseBody> getImage(@PathVariable ObjectId photoId) {
-        GridFsResource image = photoStorageService.getImageResource(photoId, false);
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.parseMediaType(image.getContentType()))
-                .body(outputStream -> IOUtils.copy(image.getInputStream(), outputStream));
-    }
-
-    @GetMapping("/scaled")
-    @ResponseBody
-    public ResponseEntity<StreamingResponseBody> getScaledImage(@PathVariable ObjectId photoId) {
-        GridFsResource image = photoStorageService.getImageResource(photoId, true);
+    public ResponseEntity<StreamingResponseBody> getImage(@PathVariable("photoId") ObjectId photoId, @PathVariable("imageSize") Photo.Size imageSize) {
+        GridFsResource image = photoStorageService.getImageResource(photoId, imageSize);
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.parseMediaType(image.getContentType()))
