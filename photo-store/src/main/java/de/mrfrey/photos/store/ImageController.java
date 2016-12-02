@@ -34,4 +34,22 @@ public class ImageController {
                 .contentType(MediaType.parseMediaType(image.getContentType()))
                 .body(outputStream -> IOUtils.copy(image.getInputStream(), outputStream));
     }
+
+    @GetMapping("/scaled")
+    @ResponseBody
+    public ResponseEntity<StreamingResponseBody> getScaledImage(@PathVariable ObjectId photoId) {
+        GridFsResource image = photoStorageService.getImageResource(photoId, true);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.parseMediaType(image.getContentType()))
+                .body(outputStream -> IOUtils.copy(image.getInputStream(), outputStream));
+    }
+
+    @PostMapping("/scaled")
+    @ResponseBody
+    public ResponseEntity<Void> uploadScaledImage(@PathVariable ObjectId photoId, InputStream content) {
+        photoStorageService.addScaledImage(photoId, content);
+        return ResponseEntity.accepted().build();
+    }
+
 }

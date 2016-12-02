@@ -7,8 +7,10 @@ import java.util.Map;
 public class Photo {
     private ObjectId id;
     private ObjectId fileId;
+    private ObjectId scaledFileId;
     private String fileName;
     private String caption;
+    private String contentType;
     private Map metadata;
 
     public ObjectId getId() {
@@ -27,6 +29,14 @@ public class Photo {
         this.fileId = fileId;
     }
 
+    public ObjectId getScaledFileId() {
+        return scaledFileId;
+    }
+
+    public void setScaledFileId(ObjectId scaledFileId) {
+        this.scaledFileId = scaledFileId;
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -41,6 +51,14 @@ public class Photo {
 
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     public Map getMetadata() {

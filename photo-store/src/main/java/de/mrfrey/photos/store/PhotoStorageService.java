@@ -67,6 +67,21 @@ public class PhotoStorageService {
         return photoRepository.findOne(photoId);
     }
 
+    public void addScaledImage(ObjectId photoId, InputStream image) {
+        Photo photo = photoRepository.findOne(photoId);
+        String scaledFileName = getScaledFileName(photo.getFileName());
+        GridFSFile scaled = gridfs.store(image, scaledFileName, photo.getContentType());
+        photo.setScaledFileId((ObjectId) scaled.getId());
+        photoRepository.save(photo);
+    }
+
+    private String getScaledFileName(String originalFileName) {
+        int dot = originalFileName.lastIndexOf('.');
+        String basename = originalFileName.substring(0, dot);
+        String extension = originalFileName.substring(dot + 1);
+        return basename + "_s" + "." + extension;
+    }
+
     private void sendNewPhotoNotification(Photo photo) {
         Message<String> message = MessageBuilder.withPayload(photo.getId().toString()).build();
         newPhotoChannel.send(message);
