@@ -17,8 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.integration.dsl.support.Transformers.toJson;
@@ -45,7 +47,8 @@ public class PhotoProcessorApplication {
     }
 
     @Bean
-    public IntegrationFlow newPhoto(Processor processor, MetadataExtractor extractor, Logger logger) {
+    public IntegrationFlow newPhoto(Processor processor, MetadataExtractor extractor, Logger logger, Jackson2ObjectMapperBuilder objectMapperBuilder) {
+        Jackson2JsonObjectMapper jsonObjectMapper = new Jackson2JsonObjectMapper(objectMapperBuilder.build());
         return IntegrationFlows
                 .from(processor.input())
                 .enrichHeaders(e -> e.headerExpression("photo-id", "payload"))
@@ -53,8 +56,10 @@ public class PhotoProcessorApplication {
                 .handle(String.class, (payload, headers) ->
                         extractor.extractMetadata(payload)
                 )
-                .transform(toJson())
-                .wireTap(sf -> sf.handle(m -> logger.info(m.toString())))
+                .transform(toJson(jsonObjectMapper))
+                .wireTap(sf ->
+                        sf.handle(m -> logger.info(m.toString()))
+                )
                 .channel(processor.output())
                 .get();
     }

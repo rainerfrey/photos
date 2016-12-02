@@ -2,6 +2,7 @@ package de.mrfrey.photos.processor.metadata;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
+import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDescriptor;
@@ -59,9 +60,12 @@ public class MetadataExtractor {
         info.put(subIFDDir.getTagName(TAG_LENS_MODEL), subIFDDir.getString(TAG_LENS_MODEL));
         info.put(subIFDDir.getTagName(TAG_APERTURE), subIFD.getFNumberDescription());
 
-        info.put("GPS Location", gpsDir.getGeoLocation());
-        info.put("GPS Position", String.format("%s, %s", gps.getGpsLatitudeDescription(), gps.getGpsLongitudeDescription()));
-        info.put(gpsDir.getTagName(GpsDirectory.TAG_ALTITUDE), gps.getGpsAltitudeDescription());
+        GeoLocation geoLocation = gpsDir.getGeoLocation();
+        if(geoLocation!=null) {
+            info.put("GPS Location", geoLocation);
+            info.put("GPS Position", String.format("%s, %s", gps.getGpsLatitudeDescription(), gps.getGpsLongitudeDescription()));
+            info.put(gpsDir.getTagName(GpsDirectory.TAG_ALTITUDE), gps.getGpsAltitudeDescription());
+        }
         return info;
     }
 }
