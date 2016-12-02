@@ -5,6 +5,7 @@ import com.mongodb.gridfs.GridFSFile;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -93,5 +95,9 @@ public class PhotoStorageService {
     private void sendNewPhotoNotification(Photo photo) {
         Message<String> message = MessageBuilder.withPayload(photo.getId().toString()).build();
         newPhotoChannel.send(message);
+    }
+
+    public List<Photo> getPhotos() {
+        return photoRepository.findAll();
     }
 }

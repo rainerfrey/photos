@@ -1,9 +1,11 @@
 package de.mrfrey.photos.store;
 
 import org.bson.types.ObjectId;
+import org.springframework.hateoas.core.Relation;
 
 import java.util.Map;
 
+@Relation(value = "photo", collectionRelation = "photos")
 public class Photo {
     private ObjectId id;
     private ObjectId fileId;

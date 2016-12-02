@@ -22,6 +22,9 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.spring.io/libs-snapshot'
+	}
 }
 
 
@@ -38,6 +41,7 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-sleuth-stream')
 	compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 	compile('commons-io:commons-io:2.5')
+	compile 'org.springframework.hateoas:spring-hateoas:0.22.0.BUILD-SNAPSHOT'
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
