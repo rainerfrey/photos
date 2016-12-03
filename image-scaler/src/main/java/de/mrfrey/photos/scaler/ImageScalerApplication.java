@@ -22,26 +22,27 @@ import org.springframework.web.client.RestTemplate;
 @EnableBinding(Processor.class)
 @EnableDiscoveryClient
 public class ImageScalerApplication {
-	@LoadBalanced
-	@Bean
-	public RestTemplate restTemplate() {
-		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new HttpComponentsClientHttpRequestFactory()));
-		restTemplate.getMessageConverters().add(new BufferedImageHttpMessageConverter());
-		return restTemplate;
-	}
-	@Bean
-	public Sampler defaultTraceSampler() {
-		return new AlwaysSampler();
-	}
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new HttpComponentsClientHttpRequestFactory()));
+        restTemplate.getMessageConverters().add(new BufferedImageHttpMessageConverter());
+        return restTemplate;
+    }
 
-	@Bean
-	@Scope("prototype")
-	public Logger logger(InjectionPoint ip) {
-		return LoggerFactory.getLogger(ip.getMember().getDeclaringClass());
-	}
+    @Bean
+    public Sampler defaultTraceSampler() {
+        return new AlwaysSampler();
+    }
+
+    @Bean
+    @Scope("prototype")
+    public Logger logger(InjectionPoint ip) {
+        return LoggerFactory.getLogger(ip.getMember().getDeclaringClass());
+    }
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(ImageScalerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ImageScalerApplication.class, args);
+    }
 }

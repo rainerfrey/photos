@@ -32,6 +32,8 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
 	compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
 	compile('org.springframework.boot:spring-boot-starter-integration')
+	compile('org.springframework.boot:spring-boot-starter-hateoas')
+	compile('com.jayway.jsonpath:json-path')
 	compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 	compile('org.springframework.cloud:spring-cloud-sleuth-stream')
 	compile('org.imgscalr:imgscalr-lib:4.2')

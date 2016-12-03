@@ -9,16 +9,19 @@ import com.drew.metadata.exif.ExifSubIFDDescriptor;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDescriptor;
 import com.drew.metadata.exif.GpsDirectory;
-import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.client.Traverson;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,13 +33,22 @@ import static com.drew.metadata.exif.ExifDirectoryBase.TAG_LENS_MODEL;
 public class MetadataExtractor {
 
     private final RestTemplate imageService;
+    private Traverson traverson;
 
     public MetadataExtractor(RestTemplate imageService) {
         this.imageService = imageService;
     }
 
+    @PostConstruct
+    protected void init() {
+        this.traverson = new Traverson(URI.create("http://photo-store/"), MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8, MediaTypes.HAL_JSON).setRestOperations(imageService);
+    }
+
     public Map<String, Object> extractMetadata(String photoId) {
-        ResponseEntity<InputStreamResource> entity = imageService.getForEntity("http://photo-store/photos/{photoId}/image/original", InputStreamResource.class, photoId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("X-Forwarded-Host", "photo-store");
+        String original = this.traverson.follow("image:original").withHeaders(httpHeaders).asTemplatedLink().expand(photoId).getHref();
+        ResponseEntity<InputStreamResource> entity = imageService.getForEntity(original, InputStreamResource.class);
         try {
             return extractMetadata(entity.getBody().getInputStream());
         } catch (IOException | ImageProcessingException e) {
@@ -61,7 +73,7 @@ public class MetadataExtractor {
         info.put(subIFDDir.getTagName(TAG_APERTURE), subIFD.getFNumberDescription());
 
         GeoLocation geoLocation = gpsDir.getGeoLocation();
-        if(geoLocation!=null) {
+        if (geoLocation != null) {
             info.put("GPS Location", geoLocation);
             info.put("GPS Position", String.format("%s, %s", gps.getGpsLatitudeDescription(), gps.getGpsLongitudeDescription()));
             info.put(gpsDir.getTagName(GpsDirectory.TAG_ALTITUDE), gps.getGpsAltitudeDescription());
