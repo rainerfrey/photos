@@ -52,7 +52,7 @@ public class MetadataExtractor {
 
     public Map<String, Object> extractMetadata(String photoId) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("X-Forwarded-Host", "photo-store");
+        httpHeaders.set("Host", "photo-store");
         String original = this.traverson.follow("image:original").withHeaders(httpHeaders).asTemplatedLink().expand(photoId).getHref();
         ResponseEntity<InputStreamResource> entity = imageService.getForEntity(original, InputStreamResource.class);
         try {
