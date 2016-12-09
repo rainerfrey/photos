@@ -25,9 +25,15 @@ import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_35MM_FILM_EQUIV_FOCAL_LENGTH;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_APERTURE;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_DATETIME;
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_EXPOSURE_TIME;
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_FOCAL_LENGTH;
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_ISO_EQUIVALENT;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_LENS_MODEL;
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_MODEL;
+import static com.drew.metadata.exif.ExifDirectoryBase.TAG_SHUTTER_SPEED;
 
 @Service
 public class MetadataExtractor {
@@ -67,10 +73,14 @@ public class MetadataExtractor {
         GpsDirectory gpsDir = metadata.getFirstDirectoryOfType(GpsDirectory.class);
         GpsDescriptor gps = new GpsDescriptor(gpsDir);
 
-        info.put(ifd0Dir.getTagName(ExifIFD0Directory.TAG_MODEL), ifd0Dir.getString(ExifIFD0Directory.TAG_MODEL));
+        info.put(ifd0Dir.getTagName(TAG_MODEL), ifd0Dir.getString(TAG_MODEL));
         info.put(ifd0Dir.getTagName(TAG_DATETIME), ifd0Dir.getDate(TAG_DATETIME));
         info.put(subIFDDir.getTagName(TAG_LENS_MODEL), subIFDDir.getString(TAG_LENS_MODEL));
         info.put(subIFDDir.getTagName(TAG_APERTURE), subIFD.getFNumberDescription());
+        info.put(subIFDDir.getTagName(TAG_SHUTTER_SPEED), subIFD.getShutterSpeedDescription());
+        info.put(subIFDDir.getTagName(TAG_ISO_EQUIVALENT), subIFD.getIsoEquivalentDescription());
+        info.put(subIFDDir.getTagName(TAG_FOCAL_LENGTH), subIFD.getFocalLengthDescription());
+        info.put(subIFDDir.getTagName(TAG_35MM_FILM_EQUIV_FOCAL_LENGTH), subIFD.get35mmFilmEquivFocalLengthDescription());
 
         GeoLocation geoLocation = gpsDir.getGeoLocation();
         if (geoLocation != null) {
