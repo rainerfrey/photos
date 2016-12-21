@@ -19,7 +19,8 @@ public class PhotoResourceAssembler extends ResourceAssemblerSupport<Photo, Phot
         Link self = linkTo(methodOn(PhotoController.class).get(id)).withSelfRel();
         Link original = linkTo(methodOn(ImageController.class).getImage(id, Photo.Size.original)).withRel("image:original");
         Link scaled = linkTo(methodOn(ImageController.class).getImage(id, Photo.Size.scaled)).withRel("image:scaled");
-        return new PhotoResource(photo, self, original, scaled);
+        Link thumb = linkTo(methodOn(ImageController.class).getImage(id, Photo.Size.thumbnail)).withRel("image:thumbnail");
+        return new PhotoResource(photo, self, original, scaled, thumb);
     }
 
     @Override

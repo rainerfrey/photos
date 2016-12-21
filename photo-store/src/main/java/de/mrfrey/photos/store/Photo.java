@@ -10,6 +10,7 @@ public class Photo {
     private ObjectId id;
     private ObjectId fileId;
     private ObjectId scaledFileId;
+    private ObjectId thumbnailFileId;
     private String fileName;
     private String caption;
     private String contentType;
@@ -37,6 +38,14 @@ public class Photo {
 
     public void setScaledFileId(ObjectId scaledFileId) {
         this.scaledFileId = scaledFileId;
+    }
+
+    public ObjectId getThumbnailFileId() {
+        return thumbnailFileId;
+    }
+
+    public void setThumbnailFileId(ObjectId thumbnailFileId) {
+        this.thumbnailFileId = thumbnailFileId;
     }
 
     public String getFileName() {

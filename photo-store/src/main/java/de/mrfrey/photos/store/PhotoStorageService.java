@@ -5,7 +5,6 @@ import com.mongodb.gridfs.GridFSFile;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -69,6 +68,7 @@ public class PhotoStorageService {
         switch (size) {
             case original: return photo.getFileId();
             case scaled: return photo.getScaledFileId();
+            case thumbnail: return photo.getThumbnailFileId();
             default: throw new IllegalArgumentException("Unsupported file size " + size);
         }
     }
@@ -77,19 +77,28 @@ public class PhotoStorageService {
         return photoRepository.findOne(photoId);
     }
 
-    public void addScaledImage(ObjectId photoId, InputStream image) {
+    public void addAdditionalImage(ObjectId photoId, InputStream image, Photo.Size size) {
         Photo photo = photoRepository.findOne(photoId);
-        String scaledFileName = getScaledFileName(photo.getFileName());
+        String scaledFileName = getAdditionalFileName(photo.getFileName(), size);
         GridFSFile scaled = gridfs.store(image, scaledFileName, photo.getContentType());
-        photo.setScaledFileId((ObjectId) scaled.getId());
+        switch (size) {
+            case original: photo.setFileId((ObjectId) scaled.getId());break;
+            case scaled: photo.setScaledFileId((ObjectId) scaled.getId());break;
+            case thumbnail: photo.setThumbnailFileId((ObjectId) scaled.getId());break;
+        }
         photoRepository.save(photo);
     }
 
-    private String getScaledFileName(String originalFileName) {
+    private String getAdditionalFileName(String originalFileName, Photo.Size size) {
         int dot = originalFileName.lastIndexOf('.');
         String basename = originalFileName.substring(0, dot);
         String extension = originalFileName.substring(dot + 1);
-        return basename + "_s" + "." + extension;
+        String suffix = "";
+        switch (size) {
+            case scaled: suffix = "_s";break;
+            case thumbnail: suffix = "_t";break;
+        }
+        return basename + suffix + "." + extension;
     }
 
     private void sendNewPhotoNotification(Photo photo) {
