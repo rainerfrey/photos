@@ -1,0 +1,10 @@
+{{nav-bar isAuthenticated=model.isAuthenticated logout=(route-action "logout")}}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-7">{{outlet}}</div>
+    <div class="col-md-5">
+      {{photo-updates updates=model.newPhotos title="New Photos"}}
+      {{photo-updates updates=model.updates title="My Updates"}}
+    </div>
+  </div>
+</div>
