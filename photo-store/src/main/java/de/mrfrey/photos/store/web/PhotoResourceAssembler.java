@@ -1,5 +1,6 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.web;
 
+import de.mrfrey.photos.store.Photo;
 import org.bson.types.ObjectId;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;

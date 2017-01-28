@@ -1,9 +1,10 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.web;
 
+import de.mrfrey.photos.store.Photo;
+import de.mrfrey.photos.store.PhotoStorageService;
 import org.bson.types.ObjectId;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import org.springframework.hateoas.core.Relation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/photos")
@@ -39,8 +43,9 @@ public class PhotoController {
     }
 
     @PostMapping
-    public String upload(@RequestPart("image-file") MultipartFile imageFile) {
-        photoStorageService.storePhoto(imageFile);
-        return "redirect:upload.html";
+    @ResponseBody
+    public Map<String, String> upload(@RequestPart("image-file") MultipartFile imageFile, Principal user) {
+        Photo photo = photoStorageService.storePhoto(imageFile, user != null ? user.getName() : "anonymous");
+        return Collections.singletonMap("photoId", photo.getId().toString());
     }
 }

@@ -1,6 +1,7 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.web;
 
 import de.escalon.hypermedia.affordance.Affordance;
+import de.mrfrey.photos.store.Photo;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

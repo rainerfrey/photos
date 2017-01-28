@@ -1,5 +1,7 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.web;
 
+import de.mrfrey.photos.store.Photo;
+import de.mrfrey.photos.store.PhotoStorageService;
 import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.gridfs.GridFsResource;

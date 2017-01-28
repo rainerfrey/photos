@@ -13,12 +13,15 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.bson.types.ObjectId;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.sleuth.Sampler;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.io.IOException;
 
@@ -30,10 +33,10 @@ public class PhotoStoreApplication {
         SpringApplication.run(PhotoStoreApplication.class, args);
     }
 
-    @Bean
-    public Sampler defaultTraceSampler() {
-        return new AlwaysSampler();
-    }
+//    @Bean
+//    public Sampler defaultTraceSampler() {
+//        return new AlwaysSampler();
+//    }
 
     @Bean
     Module objectIdModule() {
@@ -42,6 +45,21 @@ public class PhotoStoreApplication {
         module.addDeserializer(ObjectId.class, new ObjectIdDeserializer());
         return module;
     }
+
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+        return bean;
+    }
+
 
 }
 

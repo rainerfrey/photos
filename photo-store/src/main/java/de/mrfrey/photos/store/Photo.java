@@ -15,6 +15,7 @@ public class Photo {
     private String caption;
     private String contentType;
     private Map metadata;
+    private String owner;
 
     public ObjectId getId() {
         return id;
@@ -78,6 +79,14 @@ public class Photo {
 
     public void setMetadata(Map metadata) {
         this.metadata = metadata;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public static enum Size {
