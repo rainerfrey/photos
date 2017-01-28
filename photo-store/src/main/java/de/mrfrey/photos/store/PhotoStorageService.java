@@ -5,6 +5,8 @@ import com.mongodb.gridfs.GridFSFile;
 import de.mrfrey.photos.store.notify.BackendNotifier;
 import de.mrfrey.photos.store.notify.FrontendNotifier;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,6 +22,8 @@ import java.util.Map;
 
 @Service
 public class PhotoStorageService {
+    private static final Logger logger = LoggerFactory.getLogger(PhotoStorageService.class);
+
     private final GridFsOperations gridfs;
     private final PhotoRepository photoRepository;
     private final BackendNotifier backendNotifier;
@@ -103,6 +107,7 @@ public class PhotoStorageService {
                 break;
         }
         photoRepository.save(photo);
+        logger.info("Image of size {} received for {}", size, photoId);
         frontendNotifier.photoUpdated(photo, String.format("%s image added", size));
         photoCompleted(photo);
     }
