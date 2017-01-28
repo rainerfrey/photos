@@ -51,6 +51,11 @@ public class MetadataExtractor {
     }
 
     public Map<String, Object> extractMetadata(String photoId) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Host", "photo-store");
         String original = this.traverson.follow("image:original").withHeaders(httpHeaders).asTemplatedLink().expand(photoId).getHref();
