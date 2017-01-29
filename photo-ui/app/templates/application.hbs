@@ -4,7 +4,8 @@
     <div class="col-md-7">{{outlet}}</div>
     <div class="col-md-5">
       {{photo-updates updates=model.newPhotos title="New Photos"}}
-      {{photo-updates updates=model.updates title="My Updates"}}
+      {{live-comments comments=model.liveComments title="Live comments"}}
+      {{photo-updates updates=model.updates title="My Notifications"}}
     </div>
   </div>
 </div>

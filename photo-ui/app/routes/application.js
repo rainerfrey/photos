@@ -7,6 +7,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   events: Ember.inject.service(),
   ajax: Ember.inject.service(),
   updates: Ember.inject.service("photo-updates"),
+  comments: Ember.inject.service(),
   root: null,
 
   model() {
@@ -26,6 +27,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       isAuthenticated: Ember.computed.alias("session.isAuthenticated"),
       updates: this.get("updates.myUpdates"),
       newPhotos: this.get("updates.newPhotos"),
+      liveComments: this.get("comments.liveComments")
     });
   },
 

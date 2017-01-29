@@ -1,0 +1,5 @@
+{{#each photos as |photo|}}
+  {{#link-to "photo" photo.id}}
+    <img src="{{photo.thumbnailUrl}}"/> {{photo.fileName}} by {{photo.owner}}
+  {{/link-to}}
+{{/each}}
