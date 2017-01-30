@@ -33,6 +33,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	compile('io.projectreactor:reactor-net')
 	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.security:spring-security-messaging')
 	compile('org.springframework.cloud:spring-cloud-starter')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')

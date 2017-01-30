@@ -49,9 +49,9 @@ public class AuthServerApplication {
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.inMemoryAuthentication()
-                    .withUser("rainer").password("secret").roles("USER").and()
-                    .withUser("michael").password("secret").roles("USER").and()
-                    .withUser("stefan").password("secret").roles("GUEST").and()
+                    .withUser("rainer").password("secret").roles("ADMIN", "USER").and()
+                    .withUser("stefan").password("secret").roles("USER").and()
+                    .withUser("michael").password("secret").roles("GUEST")
             ;
         }
 
