@@ -140,4 +140,8 @@ public class PhotoStorageService {
     public List<Photo> getPhotos() {
         return photoRepository.findAll();
     }
+
+    public int countForUser( String name ) {
+        return photoRepository.countByOwner( name );
+    }
 }

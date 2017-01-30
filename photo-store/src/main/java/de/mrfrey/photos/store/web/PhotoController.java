@@ -5,6 +5,8 @@ import de.mrfrey.photos.store.PhotoStorageService;
 import org.bson.types.ObjectId;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.core.EmbeddedWrappers;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +32,12 @@ public class PhotoController {
 
     @GetMapping
     @ResponseBody
-    public Resources<PhotoResource> allPhotos() {
+    public Resources allPhotos() {
         List<Photo> photos = photoStorageService.getPhotos();
+        if(photos.isEmpty()) {
+            List<Object> values = Collections.singletonList( new EmbeddedWrappers( false ).emptyCollectionOf( Photo.class ) );
+            return new Resources( values );
+        }
         return new Resources<>(new PhotoResourceAssembler().toResources(photos));
     }
 
@@ -47,5 +53,10 @@ public class PhotoController {
     public Map<String, String> upload(@RequestPart("image-file") MultipartFile imageFile, Principal user) {
         Photo photo = photoStorageService.storePhoto(imageFile, user != null ? user.getName() : "anonymous");
         return Collections.singletonMap("photoId", photo.getId().toString());
+    }
+
+    @SubscribeMapping("/count")
+    public Map myPhotoCount(Principal user) {
+        return Collections.singletonMap( "count", photoStorageService.countForUser(user.getName()) );
     }
 }
