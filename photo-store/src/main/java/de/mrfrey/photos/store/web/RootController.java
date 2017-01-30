@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 import static de.escalon.hypermedia.spring.AffordanceBuilder.linkTo;
 import static de.escalon.hypermedia.spring.AffordanceBuilder.methodOn;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
@@ -32,5 +34,10 @@ public class RootController {
         ResourceSupport resource = new ResourceSupport();
         resource.add(self, photos, photo, uploadPhoto, original, scaled, thumb, image, uploadImage, uploadThumb);
         return resource;
+    }
+
+    @GetMapping("/user")
+    public Principal user(Principal principal) {
+        return  principal;
     }
 }
