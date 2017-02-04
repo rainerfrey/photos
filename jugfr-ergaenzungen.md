@@ -38,7 +38,7 @@ Error-Handling für Application Destinations
 
 Websocket-Session und HTTP Session
 ----------------------------------
-* HTTP Session-Attribute werden per default nicht ￿in die Websocket-Session übernommen - da lag ich leider falsch
+* HTTP Session-Attribute werden nicht automatisch in die Websocket-Session übernommen - da lag ich leider falsch
 * die Implementierung wird mitgeliefert, ist aber nicht automatisch aktiv
 * wird konfiguriert als Handshake-Interceptor
 
