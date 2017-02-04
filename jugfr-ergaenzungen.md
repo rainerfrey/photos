@@ -65,3 +65,13 @@ Testing von Application Destinations
     * Controller werden durch Messages an diesen Channel aufgerufen
 * embedded server: Embedded Tomcat wird gestartet, Tests können Java Client aus spring-messages verwenden
 * Beispiele in [Stock Sample Application](https://github.com/rstoyanchev/spring-websocket-portfolio)
+
+
+Aufräumen von User Destination Queues
+-------------------------------------
+* für jede Subscription zu einer User Destination wird eine Queue erzeugt
+* diese Queue sollte wieder entfernt werden, wenn die Websocket-Session beendet wird
+* das ist ein Broker-spezifischer Vorgang
+* für RabbitMQ werden `auto-delete` Queues erzeugt, die RabbitMQ automatisch löscht, wenn keine Consumer-Verbindung mehr vorhanden ist
+* ActiveMQ hat Konfigurationsoptionen um nicht mehr genutzte Queues zu entfernen [ActiveMQ Delete Inactive Destinations
+](http://activemq.apache.org/delete-inactive-destinations.html)
