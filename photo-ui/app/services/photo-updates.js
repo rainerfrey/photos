@@ -18,6 +18,7 @@ export default Ember.Service.extend({
       this.get("stomp").subscribe("/app/count", (m)=> {this.set("myCount", m.count);}, this);
       this.get("stomp").subscribe("/topic/photos", (m)=>{this.onMessage(m,this.get("newPhotos"));}, this);
       this.get("stomp").subscribe("/user/exchange/amq.direct/photo.update", (m)=>{this.onMessage(m,this.get("myUpdates"));}, this);
+      this.get("stomp").subscribe("/user/exchange/amq.direct/errors", this.onError, this);
     });
   },
 
@@ -26,5 +27,9 @@ export default Ember.Service.extend({
     if (target.get("length") > MAX_UPDATES) {
       target.shiftObject();
     }
+  },
+
+  onError(message) {
+    Ember.Logger.warn(JSON.stringify(message));
   }
 });

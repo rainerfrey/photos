@@ -81,6 +81,7 @@ export default Ember.Service.extend({
 
   _doSend: function (client, target, message) {
     client.send(target, {}, JSON.stringify(message));
+    // client.send(target, {}, message);
   },
 
   _doConnect: function () {
