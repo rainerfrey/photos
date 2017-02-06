@@ -1,8 +1,10 @@
 package de.mrfrey.photos.store;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.hateoas.core.Relation;
 
+import java.util.List;
 import java.util.Map;
 
 @Relation(value = "photo", collectionRelation = "photos")
@@ -16,6 +18,7 @@ public class Photo {
     private String contentType;
     private Map metadata;
     private String owner;
+    private List<Comment> comments;
 
     public ObjectId getId() {
         return id;
@@ -89,9 +92,36 @@ public class Photo {
         this.owner = owner;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public static enum Size {
         original,
         scaled,
         thumbnail
+    }
+
+    public static class Comment {
+        private String user;
+        private String comment;
+
+        @PersistenceConstructor
+        public Comment(String user, String comment) {
+            this.user = user;
+            this.comment = comment;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public String getComment() {
+            return comment;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.web;
 
 import org.bson.types.ObjectId;
 

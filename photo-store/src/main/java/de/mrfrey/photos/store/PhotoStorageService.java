@@ -64,6 +64,10 @@ public class PhotoStorageService {
         }
     }
 
+    public void addComment(ObjectId photoId, String user, String comment) {
+        photoRepository.addComment(photoId, new Photo.Comment(user, comment));
+    }
+
     public GridFsResource getImageResource(ObjectId photoId, Photo.Size size) {
         Photo photo = photoRepository.findOne(photoId);
         if (photo == null)
