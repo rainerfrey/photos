@@ -15,6 +15,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.sleuth.Sampler;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
@@ -33,10 +35,10 @@ public class PhotoStoreApplication {
         SpringApplication.run(PhotoStoreApplication.class, args);
     }
 
-//    @Bean
-//    public Sampler defaultTraceSampler() {
-//        return new AlwaysSampler();
-//    }
+    @Bean
+    public Sampler defaultTraceSampler() {
+        return new AlwaysSampler();
+    }
 
     @Bean
     Module objectIdModule() {
