@@ -1,14 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4 class="panel-title"><a href="#commentList" data-toggle="collapse">Comments</a></h4>
+    <h4 class="panel-title collapse-link" data-target="#commentList" data-toggle="collapse">Comments</h4>
   </div>
-  <div class="panel-body collapse.in" id="commentList">
-    <ul class="list-group">
-      {{#each comments as |comment|}}
-        <li class="list-group-item"><strong>{{comment.user}}</strong>:
-          {{comment.comment}}
-        </li>
-      {{/each}}
-    </ul>
-  </div>
+  <ul class="list-group collapse in" id="commentList">
+    {{#each comments as |comment|}}
+      <li class="list-group-item"><strong>{{comment.user}}</strong>:
+        {{comment.comment}}
+      </li>
+    {{/each}}
+  </ul>
 </div>

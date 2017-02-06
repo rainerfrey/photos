@@ -92,3 +92,11 @@ body {
     padding-left: 40px;
   }
 }
+
+table.collapse.in {
+  display: table;
+}
+
+.collapse-link {
+  cursor: pointer;
+}
