@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,9 +35,9 @@ public class PhotoController {
     @ResponseBody
     public Resources allPhotos() {
         List<Photo> photos = photoStorageService.getPhotos();
-        if(photos.isEmpty()) {
-            List<Object> values = Collections.singletonList( new EmbeddedWrappers( false ).emptyCollectionOf( Photo.class ) );
-            return new Resources( values );
+        if (photos.isEmpty()) {
+            List<Object> values = Collections.singletonList(new EmbeddedWrappers(false).emptyCollectionOf(Photo.class));
+            return new Resources(values);
         }
         return new Resources<>(new PhotoResourceAssembler().toResources(photos));
     }
@@ -50,13 +51,13 @@ public class PhotoController {
 
     @PostMapping
     @ResponseBody
-    public Map<String, String> upload(@RequestPart("image-file") MultipartFile imageFile, Principal user) {
-        Photo photo = photoStorageService.storePhoto(imageFile, user != null ? user.getName() : "anonymous");
+    public Map<String, String> upload(@RequestParam("image-file") MultipartFile imageFile, @RequestParam("title") String title, @RequestParam("caption") String caption, Principal user) {
+        Photo photo = photoStorageService.storePhoto(imageFile, title, caption, user != null ? user.getName() : "anonymous");
         return Collections.singletonMap("photoId", photo.getId().toString());
     }
 
     @SubscribeMapping("/count")
     public Map myPhotoCount(Principal user) {
-        return Collections.singletonMap( "count", photoStorageService.countForUser(user.getName()) );
+        return Collections.singletonMap("count", photoStorageService.countForUser(user.getName()));
     }
 }

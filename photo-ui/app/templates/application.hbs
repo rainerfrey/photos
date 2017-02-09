@@ -1,8 +1,8 @@
 {{nav-bar isAuthenticated=model.isAuthenticated logout=(route-action "logout")}}
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-7">{{outlet}}</div>
-    <div class="col-md-5">
+    <div class="col-md-8">{{outlet}}</div>
+    <div class="col-md-4">
       {{photo-updates updates=model.newPhotos title="New Photos"}}
       {{live-comments comments=model.liveComments title="Live comments"}}
       {{photo-updates updates=model.updates title="My Notifications"}}

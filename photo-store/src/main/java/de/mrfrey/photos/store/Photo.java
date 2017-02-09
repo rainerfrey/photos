@@ -14,6 +14,7 @@ public class Photo {
     private ObjectId scaledFileId;
     private ObjectId thumbnailFileId;
     private String fileName;
+    private String title;
     private String caption;
     private String contentType;
     private Map metadata;
@@ -58,6 +59,14 @@ public class Photo {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCaption() {

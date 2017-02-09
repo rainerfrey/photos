@@ -2,7 +2,7 @@
   {{#each photos as |photo|}}
     <li class="list-group-item">
       {{#link-to "photo" photo.id}}
-        <img src="{{photo.thumbnailUrl}}"/> {{photo.fileName}} by {{photo.owner}}
+        <img src="{{photo.thumbnailUrl}}"/> {{photo.displayName}} by {{photo.owner}}
       {{/link-to}}
     </li>
   {{/each}}

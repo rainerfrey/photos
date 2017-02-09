@@ -4,6 +4,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import de.mrfrey.photos.store.notify.BackendNotifier;
 import de.mrfrey.photos.store.notify.FrontendNotifier;
+import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class PhotoStorageService {
         this.frontendNotifier = frontendNotifier;
     }
 
-    public Photo storePhoto(MultipartFile file, String username) {
+    public Photo storePhoto(MultipartFile file, String title, String caption, String username) {
         try {
             GridFSFile storedFile = gridfs.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
             Photo photo = new Photo();
@@ -45,6 +46,8 @@ public class PhotoStorageService {
             photo.setFileId((ObjectId) storedFile.getId());
             photo.setContentType(file.getContentType());
             photo.setOwner(username);
+            photo.setTitle(StringUtils.trimToNull(title));
+            photo.setCaption(StringUtils.trimToNull(caption));
             photo = photoRepository.insert(photo);
             backendNotifier.newPhoto(photo);
 //            frontendNotifier.newPhoto(photo);
@@ -145,7 +148,7 @@ public class PhotoStorageService {
         return photoRepository.findAll();
     }
 
-    public int countForUser( String name ) {
-        return photoRepository.countByOwner( name );
+    public int countForUser(String name) {
+        return photoRepository.countByOwner(name);
     }
 }

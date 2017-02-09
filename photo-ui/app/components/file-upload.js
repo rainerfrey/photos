@@ -15,10 +15,17 @@ export default EmberUploader.FileField.extend({
       url: ENV.PHOTOS.serviceUrl + this.get('url'),
       ajaxSettings: {headers}
     });
+    uploader.on('didUpload', () => {
+      this.$().val(null);
+    });
 
     if (!Ember.isEmpty(files)) {
+      let extra = {
+          title: this.get("title"),
+          caption: this.get("caption")
+      };
       // this second argument is optional and can to be sent as extra data with the upload
-      uploader.upload(files[0]);
+      uploader.upload(files[0], extra);
     }
   }
 });
