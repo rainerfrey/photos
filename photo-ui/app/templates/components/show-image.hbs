@@ -1,9 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4 class="panel-title">{{photo.displayName}}</h4>
+    <h4 class="panel-title">{{#link-to "photo" photo.id}} {{photo.displayName}} {{/link-to}}</h4>
   </div>
   <div class="panel-body">
-<img src="{{photo.scaledUrl}}" title="{{photo.displayName}}" width="600px" height="400px"/><br>
-{{photo.caption}} ({{photo.fileName}}) - by {{photo.owner}}
+    <div class="image-display">
+      <img src="{{photo.scaledUrl}}" title="{{photo.displayName}}"/>
+    </div>
+    {{caption}} ({{photo.fileName}}) - by {{photo.owner}}
+    <a href="{{photo.originalUrl}}" target="_blank" class="full-size-link"><span class="glyphicon glyphicon-download-alt"/> Full Size</a>
   </div>
 </div>
