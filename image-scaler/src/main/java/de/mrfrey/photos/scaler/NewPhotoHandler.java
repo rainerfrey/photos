@@ -1,10 +1,14 @@
 package de.mrfrey.photos.scaler;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.exif.ExifIFD0Directory;
 import org.slf4j.Logger;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.client.Traverson;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @Component
@@ -48,12 +53,22 @@ public class NewPhotoHandler {
             Thread.currentThread().interrupt();
         }
         ResponseEntity<ByteArrayResource> original = fetchOriginalImage(photoId);
-        scale(photoId, original, "scaled", scaler::scaleImage);
-        scale(photoId, original, "thumbnail", scaler::scaleThumbnail);
+        int orientation = 1;
+        try {
+            Metadata metadata = ImageMetadataReader.readMetadata(original.getBody().getInputStream());
+            ExifIFD0Directory ifd0 = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+            orientation = ifd0.getInt(ExifIFD0Directory.TAG_ORIENTATION);
+        } catch (ImageProcessingException e) {
+            e.printStackTrace();
+        } catch (MetadataException e) {
+            e.printStackTrace();
+        }
+        scale(photoId, original, "scaled", scaler::scaleImage, orientation);
+        scale(photoId, original, "thumbnail", scaler::scaleThumbnail, orientation);
     }
 
-    private void scale(String photoId, ResponseEntity<ByteArrayResource> original, String imageSize, Function<InputStream, BufferedImage> scaling) throws IOException {
-        BufferedImage bufferedImage = scaling.apply(original.getBody().getInputStream());
+    private void scale(String photoId, ResponseEntity<ByteArrayResource> original, String imageSize, BiFunction<InputStream, Integer, BufferedImage> scaling, int orientation) throws IOException {
+        BufferedImage bufferedImage = scaling.apply(original.getBody().getInputStream(), orientation);
         String upload = traverson.follow("image:upload:" + imageSize).withHeaders(getHttpHeaders()).asTemplatedLink().expand(photoId).getHref();
         RequestEntity<BufferedImage> requestEntity = RequestEntity.post(URI.create(upload)).contentType(original.getHeaders().getContentType()).body(bufferedImage);
         ResponseEntity<Void> uploadResponse = imageService.exchange(requestEntity, Void.class);
