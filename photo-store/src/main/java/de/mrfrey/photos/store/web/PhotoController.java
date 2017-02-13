@@ -51,7 +51,7 @@ public class PhotoController {
 
     @PostMapping
     @ResponseBody
-    public Map<String, String> upload(@RequestParam("image-file") MultipartFile imageFile, @RequestParam("title") String title, @RequestParam("caption") String caption, Principal user) {
+    public Map<String, String> upload(@RequestParam("image-file") MultipartFile imageFile, @RequestParam(name = "title", required = false) String title, @RequestParam(name = "caption", required = false) String caption, Principal user) {
         Photo photo = photoStorageService.storePhoto(imageFile, title, caption, user != null ? user.getName() : "anonymous");
         return Collections.singletonMap("photoId", photo.getId().toString());
     }
