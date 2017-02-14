@@ -11,9 +11,10 @@ export default DS.Model.extend({
   caption: attr("string"),
   metadata: attr(),
   comments: attr(),
-  thumbnailUrl: alias("data.links.image:thumbnail"),
-  scaledUrl: alias("data.links.image:scaled"),
-  originalUrl: alias("data.links.image:original"),
+  links: attr(),
+  thumbnailUrl: alias("links.image:thumbnail"),
+  scaledUrl: alias("links.image:scaled"),
+  originalUrl: alias("links.image:original"),
   displayName: computed("title", "fileName", function () {
     let title = this.get("title");
     if (isPresent(title)) {
