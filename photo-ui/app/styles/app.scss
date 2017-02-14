@@ -119,3 +119,10 @@ table.collapse.in {
 .full-size-link {
   float: right;
 }
+
+.panel-heading a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
