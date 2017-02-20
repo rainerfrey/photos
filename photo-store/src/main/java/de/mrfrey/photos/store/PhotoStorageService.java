@@ -50,6 +50,7 @@ public class PhotoStorageService {
             photo.setCaption(StringUtils.trimToNull(caption));
             photo = photoRepository.insert(photo);
             backendNotifier.newPhoto(photo);
+            logger.info("New photo {} uploaded, with title {}, saved as {}", photo.getFileName(), photo.getTitle(), photo.getId());
 //            frontendNotifier.newPhoto(photo);
             return photo;
         } catch (IOException e) {
