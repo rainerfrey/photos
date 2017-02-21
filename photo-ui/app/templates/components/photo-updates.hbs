@@ -4,7 +4,7 @@
   </div>
   <ul class="list-group">
   {{#each updates as |update|}}
-    <li class="list-group-item">({{update.photoId}}) {{update.message}}
+    <li class="list-group-item">({{#link-to "photo" update.photoId}}{{update.photoId}}{{/link-to}}) {{update.message}}
       {{#if update.thumbnailUrl}}
         <img src="{{update.thumbnailUrl}}"/>
       {{/if}}
