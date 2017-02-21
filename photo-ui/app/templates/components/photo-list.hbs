@@ -1,9 +1,9 @@
 <ul class="list-group">
-  {{#each photos as |photo|}}
-    <li class="list-group-item">
-      {{#link-to "photo" photo.id}}
-        <img src="{{photo.thumbnailUrl}}"/> {{photo.displayName}} by {{photo.owner}}
-      {{/link-to}}
-    </li>
-  {{/each}}
+    {{#each photos as |photo|}}
+        <li class="list-group-item">
+            {{#link-to "photo" photo.id}}
+                <img src="{{photo.thumbnailUrl}}"/> {{photo.displayName}} by {{photo.owner}}
+            {{/link-to}}
+        </li>
+    {{/each}}
 </ul>

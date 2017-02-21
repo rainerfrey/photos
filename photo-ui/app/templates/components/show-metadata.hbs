@@ -1,15 +1,15 @@
 <div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title collapse-link" data-toggle="collapse" data-target="#metadataTable">EXIF Data</h4>
-  </div>
-  <table class="table table-condensed collapse" id="metadataTable">
-    <tbody>
-    {{#each-in metadata as |key value|}}
-      <tr>
-        <td>{{key}}</td>
-        <td>{{value}}</td>
-      </tr>
-    {{/each-in}}
-    </tbody>
-  </table>
+    <div class="panel-heading">
+        <h4 class="panel-title collapse-link" data-toggle="collapse" data-target="#metadataTable">EXIF Data</h4>
+    </div>
+    <table class="table table-condensed collapse" id="metadataTable">
+        <tbody>
+        {{#each-in metadata as |key value|}}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+        {{/each-in}}
+        </tbody>
+    </table>
 </div>

@@ -1,12 +1,13 @@
 <div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title">{{title}}</h4>
-  </div>
-  <ul class="list-group">
-  {{#each comments as |comment|}}
-    <li class="list-group-item">({{link-to comment.photoId "photo" comment.photoId}}) <strong>{{comment.user}}</strong>:
-      {{comment.comment}}
-    </li>
-  {{/each}}
-</ul>
+    <div class="panel-heading">
+        <h4 class="panel-title">{{title}}</h4>
+    </div>
+    <ul class="list-group">
+        {{#each comments as |comment|}}
+            <li class="list-group-item">({{link-to comment.photoId "photo" comment.photoId}})
+                <strong>{{comment.user}}</strong>:
+                {{comment.comment}}
+            </li>
+        {{/each}}
+    </ul>
 </div>

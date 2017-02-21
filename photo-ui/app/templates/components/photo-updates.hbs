@@ -1,14 +1,15 @@
 <div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title">{{title}}</h4>
-  </div>
-  <ul class="list-group">
-  {{#each updates as |update|}}
-    <li class="list-group-item">({{#link-to "photo" update.photoId}}{{update.photoId}}{{/link-to}}) {{update.message}}
-      {{#if update.thumbnailUrl}}
-        <img src="{{update.thumbnailUrl}}"/>
-      {{/if}}
-    </li>
-  {{/each}}
-</ul>
+    <div class="panel-heading">
+        <h4 class="panel-title">{{title}}</h4>
+    </div>
+    <ul class="list-group">
+        {{#each updates as |update|}}
+            <li class="list-group-item">({{#link-to "photo" update.photoId}}{{update.photoId}}{{/link-to}}
+                ) {{update.message}}
+                {{#if update.thumbnailUrl}}
+                    <img src="{{update.thumbnailUrl}}"/>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
 </div>
