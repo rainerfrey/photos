@@ -10,6 +10,7 @@ Router.map(function() {
   this.route("login");
   this.route("photo", {path: "/photos/:id"});
   this.route("photos");
+  this.route("upload");
 });
 
 export default Router;

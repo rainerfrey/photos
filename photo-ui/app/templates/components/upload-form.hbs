@@ -5,6 +5,12 @@
   <div class="panel-body">
     <form>
       <div class="form-group">
+        {{upload-preview url=previewUrl}}
+      </div>
+      <div class="form-group">
+        {{file-upload filesChangedAction=(action "filesChanged") uploadEvents=this}}
+      </div>
+      <div class="form-group">
         <label for="imageTitle">Title</label>
         {{input type="text" value=title id="imageTitle" class="form-control"}}
       </div>
@@ -12,7 +18,7 @@
         <label for="imageCaption">Caption</label>
         {{textarea value=caption id="imageCaption" class="form-control"}}
       </div>
-      {{file-upload url="/photos" title=title caption=caption}}
+      <button class="btn btn-primary" {{action 'upload'}}>Upload</button>
     </form>
   </div>
 </div>
