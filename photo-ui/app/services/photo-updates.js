@@ -26,7 +26,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
     newPhoto(message) {
         this.updateList(message, this.get("newPhotos"));
-        this.trigger("newPhoto");
+        this.trigger("newPhoto", Update.create(message));
     },
 
     photoUpdate(message) {

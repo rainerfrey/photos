@@ -1,7 +1,7 @@
 package de.mrfrey.photos.store.web;
 
-import de.mrfrey.photos.store.Photo;
-import de.mrfrey.photos.store.PhotoStorageService;
+import de.mrfrey.photos.store.photo.Photo;
+import de.mrfrey.photos.store.photo.PhotoStorageService;
 import org.bson.types.ObjectId;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,8 +50,13 @@ public class PhotoController {
 
     @PostMapping
     @ResponseBody
-    public Map<String, String> upload(@RequestParam("image-file") MultipartFile imageFile, @RequestParam(name = "title", required = false) String title, @RequestParam(name = "caption", required = false) String caption, Principal user) {
-        Photo photo = photoStorageService.storePhoto(imageFile, title, caption, user != null ? user.getName() : "anonymous");
+    public Map<String, String> upload(
+            @RequestParam("image-file") MultipartFile imageFile,
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "caption", required = false) String caption,
+            @RequestParam(name = "collectionId", required = false) ObjectId collectionId,
+            Principal user) {
+        Photo photo = photoStorageService.storePhoto(imageFile, title, caption, user != null ? user.getName() : "anonymous", collectionId);
         return Collections.singletonMap("photoId", photo.getId().toString());
     }
 

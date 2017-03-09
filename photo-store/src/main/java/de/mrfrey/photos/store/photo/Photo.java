@@ -1,4 +1,4 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.photo;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -20,6 +20,7 @@ public class Photo {
     private Map metadata;
     private String owner;
     private List<Comment> comments;
+    private ObjectId collectionId;
 
     public ObjectId getId() {
         return id;
@@ -107,6 +108,14 @@ public class Photo {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public ObjectId getCollectionId() {
+        return collectionId;
+    }
+
+    public void setCollectionId(ObjectId collectionId) {
+        this.collectionId = collectionId;
     }
 
     public static enum Size {

@@ -1,6 +1,6 @@
 package de.mrfrey.photos.store.web;
 
-import de.mrfrey.photos.store.PhotoStorageService;
+import de.mrfrey.photos.store.photo.PhotoStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;

@@ -1,4 +1,4 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.photo;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
@@ -38,7 +38,7 @@ public class PhotoStorageService {
         this.frontendNotifier = frontendNotifier;
     }
 
-    public Photo storePhoto(MultipartFile file, String title, String caption, String username) {
+    public Photo storePhoto(MultipartFile file, String title, String caption, String username, ObjectId collectionId) {
         try {
             GridFSFile storedFile = gridfs.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
             Photo photo = new Photo();
@@ -48,6 +48,7 @@ public class PhotoStorageService {
             photo.setOwner(username);
             photo.setTitle(StringUtils.trimToNull(title));
             photo.setCaption(StringUtils.trimToNull(caption));
+            photo.setCollectionId(collectionId);
             photo = photoRepository.insert(photo);
             backendNotifier.newPhoto(photo);
             logger.info("New photo {} uploaded, with title {}, saved as {}", photo.getFileName(), photo.getTitle(), photo.getId());
@@ -147,6 +148,10 @@ public class PhotoStorageService {
 
     public List<Photo> getPhotos() {
         return photoRepository.findAll();
+    }
+
+    public Iterable<Photo> getPhotosForCollection(ObjectId collectionId) {
+        return photoRepository.findAllByCollectionId(collectionId);
     }
 
     public int countForUser(String name) {

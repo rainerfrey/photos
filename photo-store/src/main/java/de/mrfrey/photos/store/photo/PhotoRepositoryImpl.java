@@ -1,4 +1,4 @@
-package de.mrfrey.photos.store;
+package de.mrfrey.photos.store.photo;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;

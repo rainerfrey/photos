@@ -1,0 +1,9 @@
+<ul class="list-group">
+    {{#each collections as |collection|}}
+        <li class="list-group-item">
+            {{#link-to "photoCollection" collection.id}}
+                <img src="{{collection.photos.firstObject.thumbnailUrl}}"/> {{collection.title}} by {{collection.owner}}
+            {{/link-to}}
+        </li>
+    {{/each}}
+</ul>

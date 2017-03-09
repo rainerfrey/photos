@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">Photos</h4>
+    </div>
+    <div class="panel-body">
+        <div id="collection-carousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {{#each collection.photos as |photo index|}}
+                    <li data-target="#collection-carousel" data-slide-to="{{index}}"
+                        class="{{if (eq index 0) 'active'}}"></li>
+                {{/each}}
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                {{#each collection.photos as |photo index|}}
+                    <div class="item {{if (eq index 0) ' active'}}">
+                        <div class="image-display">
+                            <img src="{{photo.scaledUrl}}" alt="{{photo.displayName}}">
+                        </div>
+                        <div class="carousel-caption">
+                            <h4>{{photo.displayName}}</h4>
+                            <p>{{photo.caption}}</p>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <!-- Controls -->
+            <a class="left carousel-control" href="#collection-carousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#collection-carousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 package de.mrfrey.photos.store.notify;
 
-import de.mrfrey.photos.store.Photo;
+import de.mrfrey.photos.store.photo.Photo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;

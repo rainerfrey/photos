@@ -11,6 +11,9 @@ Router.map(function () {
     this.route("photo", {path: "/photos/:id"});
     this.route("photos");
     this.route("upload");
+    this.route("photoCollections", {path: "/photo-collections"});
+    this.route("photoCollection", {path: "/photo-collections/:id"});
+    this.route("newCollection", {path: "/photo-collections/new"});
 });
 
 export default Router;

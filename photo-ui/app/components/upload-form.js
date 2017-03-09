@@ -29,9 +29,8 @@ export default Ember.Component.extend(Ember.Evented, {
                 url: ENV.PHOTOS.serviceUrl + '/photos',
                 ajaxSettings: {headers}
             });
-            uploader.on('didUpload', () => {
-                Ember.Logger.log("upload-form: didUpload called");
-                this.trigger("didUpload");
+            uploader.on('didUpload', (event) => {
+                this.trigger("didUpload", event);
                 this.set("title", null);
                 this.set("caption", null);
                 this.set("previewUrl", null);
@@ -39,6 +38,7 @@ export default Ember.Component.extend(Ember.Evented, {
 
             let title = this.get("title");
             let caption = this.get("caption");
+            let collection = this.get("collection");
 
             let extra = {};
             if (isPresent(title)) {
@@ -47,8 +47,16 @@ export default Ember.Component.extend(Ember.Evented, {
             if (isPresent(caption)) {
                 extra.caption = caption;
             }
+            if (isPresent(collection)) {
+                extra.collectionId = collection.get("id");
+            }
             // this second argument is optional and can to be sent as extra data with the upload
-            uploader.upload(files[0], extra);
+            uploader.upload(files[0], extra).then(data=>{
+                let onUpload = this.get("onUploadSubmitted");
+                if(onUpload) {
+                    onUpload(data);
+                }
+            });
         }
 
     },

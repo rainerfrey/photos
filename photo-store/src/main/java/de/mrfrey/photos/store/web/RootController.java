@@ -1,6 +1,6 @@
 package de.mrfrey.photos.store.web;
 
-import de.mrfrey.photos.store.Photo;
+import de.mrfrey.photos.store.photo.Photo;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.web.bind.annotation.GetMapping;
