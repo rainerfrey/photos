@@ -12,6 +12,7 @@ export default DS.Model.extend({
     metadata: attr(),
     comments: attr(),
     links: attr(),
+    collectionId: attr("string"),
     thumbnailUrl: alias("links.image:thumbnail"),
     scaledUrl: alias("links.image:scaled"),
     originalUrl: alias("links.image:original"),

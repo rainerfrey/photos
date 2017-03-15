@@ -17,7 +17,7 @@
                             <img src="{{photo.scaledUrl}}" alt="{{photo.displayName}}">
                         </div>
                         <div class="carousel-caption">
-                            <h4>{{photo.displayName}}</h4>
+                            <h4>{{#link-to "photo" photo.id}}{{photo.displayName}}{{/link-to}}</h4>
                             <p>{{photo.caption}}</p>
                         </div>
                     </div>

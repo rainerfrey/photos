@@ -47,11 +47,11 @@ public class NewPhotoHandler {
 
     @StreamListener(Processor.INPUT)
     public void handleNewPhoto(String photoId) throws IOException {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
         ResponseEntity<ByteArrayResource> original = fetchOriginalImage(photoId);
         int orientation = 1;
         try {
