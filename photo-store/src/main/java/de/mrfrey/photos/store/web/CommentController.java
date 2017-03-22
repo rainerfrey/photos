@@ -2,7 +2,6 @@ package de.mrfrey.photos.store.web;
 
 import de.mrfrey.photos.store.photo.PhotoStorageService;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -16,12 +15,13 @@ import java.util.Map;
 
 @Controller
 public class CommentController {
-    private static Logger logger = LoggerFactory.getLogger(CommentController.class);
+    private final Logger logger;
 
     private final PhotoStorageService photoStorageService;
 
-    public CommentController(PhotoStorageService photoStorageService) {
+    public CommentController(PhotoStorageService photoStorageService, Logger logger) {
         this.photoStorageService = photoStorageService;
+        this.logger = logger;
     }
 
     @MessageMapping("/comments")

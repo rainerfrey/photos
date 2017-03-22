@@ -7,7 +7,6 @@ import de.mrfrey.photos.store.notify.FrontendNotifier;
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,7 +22,7 @@ import java.util.Map;
 
 @Service
 public class PhotoStorageService {
-    private static final Logger logger = LoggerFactory.getLogger(PhotoStorageService.class);
+    private final Logger logger;
 
     private final GridFsOperations gridfs;
     private final PhotoRepository photoRepository;
@@ -31,11 +30,12 @@ public class PhotoStorageService {
     private final FrontendNotifier frontendNotifier;
 
     @Autowired
-    public PhotoStorageService(GridFsOperations gridfs, PhotoRepository photoRepository, BackendNotifier backendNotifier, FrontendNotifier frontendNotifier) {
+    public PhotoStorageService(GridFsOperations gridfs, PhotoRepository photoRepository, BackendNotifier backendNotifier, FrontendNotifier frontendNotifier, Logger logger) {
         this.gridfs = gridfs;
         this.photoRepository = photoRepository;
         this.backendNotifier = backendNotifier;
         this.frontendNotifier = frontendNotifier;
+        this.logger = logger;
     }
 
     public Photo storePhoto(MultipartFile file, String title, String caption, String username, ObjectId collectionId) {

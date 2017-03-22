@@ -2,7 +2,6 @@ package de.mrfrey.photos.store.notify;
 
 import de.mrfrey.photos.store.photo.Photo;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +10,12 @@ import java.util.Map;
 
 @Service
 public class FrontendNotifier {
-    private static final Logger logger = LoggerFactory.getLogger(FrontendNotifier.class);
+    private final Logger logger;
     private final SimpMessageSendingOperations messaging;
 
-    public FrontendNotifier(SimpMessageSendingOperations messaging) {
+    public FrontendNotifier(SimpMessageSendingOperations messaging, Logger logger) {
         this.messaging = messaging;
+        this.logger = logger;
     }
 
     public void photoUpdated(Photo photo, String message) {
@@ -35,6 +35,7 @@ public class FrontendNotifier {
         message.put("scaledUrl", String.format("http://localhost:8080/photos/%s/image/scaled", photo.getId()));
         message.put("owner", photo.getOwner());
         message.put("message", String.format("%s has added the photo %s", photo.getOwner(), photo.getFileName()));
+        logger.info("Sending new photo notification from {}", photo.getOwner());
         messaging.convertAndSend("/topic/photos", message);
     }
 }

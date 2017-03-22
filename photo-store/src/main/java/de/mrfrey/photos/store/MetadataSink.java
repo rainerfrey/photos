@@ -2,7 +2,6 @@ package de.mrfrey.photos.store;
 
 import de.mrfrey.photos.store.photo.PhotoStorageService;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -12,11 +11,12 @@ import java.util.Map;
 
 @Component
 public class MetadataSink {
-    private static final Logger logger = LoggerFactory.getLogger(MetadataSink.class);
+    private final Logger logger;
     private final PhotoStorageService photoStorageService;
 
-    public MetadataSink(PhotoStorageService photoStorageService) {
+    public MetadataSink(PhotoStorageService photoStorageService, Logger logger) {
         this.photoStorageService = photoStorageService;
+        this.logger = logger;
     }
 
     @StreamListener("input")
