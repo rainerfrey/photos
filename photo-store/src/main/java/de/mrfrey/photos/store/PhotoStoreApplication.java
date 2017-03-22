@@ -11,15 +11,17 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.sleuth.Sampler;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -36,8 +38,9 @@ public class PhotoStoreApplication {
     }
 
     @Bean
-    public Sampler defaultTraceSampler() {
-        return new AlwaysSampler();
+    @Scope("prototype")
+    public Logger logger(InjectionPoint ip) {
+        return LoggerFactory.getLogger(ip.getMember().getDeclaringClass());
     }
 
     @Bean
