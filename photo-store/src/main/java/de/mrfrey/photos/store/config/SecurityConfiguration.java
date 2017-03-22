@@ -19,7 +19,7 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/photos/*/image/*").permitAll()
-                    .antMatchers("/user", "/ws", "/ws/**", "/photos/*").authenticated()
+                    .antMatchers("/user", "/ws", "/ws/**", "/photos/*", "/photo-collections/*").authenticated()
                     .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
