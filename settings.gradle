@@ -1,3 +1,8 @@
 rootProject.name = 'photos'
-include 'photo-store', 'photo-processor', 'image-scaler', 'zipkin-collector', 'eureka-server', 'auth-server'
+include 'photo-store',
+        'metadata-extractor',
+        'image-scaler',
+        'zipkin-collector',
+        'eureka-server',
+        'auth-server'
 

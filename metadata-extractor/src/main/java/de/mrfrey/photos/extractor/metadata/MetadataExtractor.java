@@ -1,4 +1,4 @@
-package de.mrfrey.photos.processor.metadata;
+package de.mrfrey.photos.extractor.metadata;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
@@ -28,7 +28,6 @@ import java.util.Map;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_35MM_FILM_EQUIV_FOCAL_LENGTH;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_APERTURE;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_DATETIME;
-import static com.drew.metadata.exif.ExifDirectoryBase.TAG_EXPOSURE_TIME;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_FOCAL_LENGTH;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_ISO_EQUIVALENT;
 import static com.drew.metadata.exif.ExifDirectoryBase.TAG_LENS_MODEL;

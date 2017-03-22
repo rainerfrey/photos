@@ -1,6 +1,6 @@
-package de.mrfrey.photos.processor;
+package de.mrfrey.photos.extractor;
 
-import de.mrfrey.photos.processor.metadata.MetadataExtractor;
+import de.mrfrey.photos.extractor.metadata.MetadataExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InjectionPoint;
@@ -8,9 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
-import org.springframework.cloud.sleuth.Sampler;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +25,10 @@ import static org.springframework.integration.dsl.support.Transformers.toJson;
 @SpringBootApplication
 @EnableBinding(Processor.class)
 @EnableDiscoveryClient
-public class PhotoProcessorApplication {
+public class MetadataExtractorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PhotoProcessorApplication.class, args);
+        SpringApplication.run(MetadataExtractorApplication.class, args);
     }
 
     @Bean
@@ -62,10 +59,5 @@ public class PhotoProcessorApplication {
                 )
                 .channel(processor.output())
                 .get();
-    }
-
-    @Bean
-    public Sampler defaultTraceSampler() {
-        return new AlwaysSampler();
     }
 }
