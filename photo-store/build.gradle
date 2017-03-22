@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.1.RELEASE'
+		springBootVersion = '1.5.2.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -42,8 +42,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
-	compile('org.springframework.cloud:spring-cloud-sleuth-stream')
-	compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 	compile('commons-io:commons-io:2.5')
 	compile 'org.springframework.hateoas:spring-hateoas'
 	compile('org.springframework.security.oauth:spring-security-oauth2')
@@ -55,6 +53,6 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR5"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR6"
 	}
 }
