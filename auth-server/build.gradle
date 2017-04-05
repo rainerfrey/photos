@@ -21,10 +21,18 @@ jar {
 
 sourceCompatibility = 1.8
 
+ext {
+	set("spring-security-oauth.version", "2.1.0.RELEASE")
+}
 repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR6"
+	}
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -32,5 +40,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.security.oauth:spring-security-oauth2')
 	compile('org.springframework.security:spring-security-jwt')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

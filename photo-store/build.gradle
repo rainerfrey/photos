@@ -13,6 +13,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
+ext {
+	set("spring-security-oauth.version", "2.1.0.RELEASE")
+}
+
+
 jar {
 	baseName = 'photo-store'
 	version = '1.0.0'
