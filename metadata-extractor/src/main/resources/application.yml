@@ -1,0 +1,38 @@
+server.port: 9090
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: new-photo
+          group: metadata-extractor
+        output:
+          destination: new-metadata
+          content-type: application/json
+      rabbit:
+        bindings:
+          input:
+            consumer.durable-subscription: true
+
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      write-null-map-values: false
+    default-property-inclusion: non_empty
+
+eureka:
+  client:
+    service-url.defaultZone: http://localhost:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 0
+    instance-info-replication-interval-seconds: 1
+    registry-fetch-interval-seconds: 1
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+
+management:
+  security.enabled: false
+  context-path: /manage

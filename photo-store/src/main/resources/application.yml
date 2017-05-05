@@ -1,0 +1,49 @@
+server:port: 8080
+
+spring:
+  data:
+    mongodb:
+      grid-fs-database: photos-fs
+      database: photos
+
+spring:
+  http:
+    multipart:
+      max-file-size: 20Mb
+      max-request-size: 50Mb
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: new-photo
+        input:
+          destination: new-metadata
+          content-type: application/json
+          group: photo-store
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              durable-subscription: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      write-null-map-values: false
+    default-property-inclusion: non_empty
+
+security:
+  oauth2:
+    resource:
+      jwt.key-uri: http://localhost:9999/oauth/token_key
+
+eureka:
+  client:
+    service-url.defaultZone: http://localhost:8761/eureka/
+    initial-instance-info-replication-interval-seconds: 0
+    instance-info-replication-interval-seconds: 1
+    registry-fetch-interval-seconds: 1
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
