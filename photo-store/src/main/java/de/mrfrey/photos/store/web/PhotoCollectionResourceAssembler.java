@@ -12,6 +12,7 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import java.util.Arrays;
 import java.util.List;
 
+import static de.mrfrey.photos.store.web.Rels.PHOTOS;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -30,7 +31,7 @@ public class PhotoCollectionResourceAssembler extends ResourceAssemblerSupport<P
         PhotoCollectionResource resource = new PhotoCollectionResource(photoCollection);
         Iterable<Photo> photosForCollection = photoStorageService.getPhotosForCollection(photoCollection.getId());
         List<PhotoResource> photoResources = photoResourceAssembler.toResources(photosForCollection);
-        EmbeddedWrapper photos = new EmbeddedWrappers(true).wrap(photoResources, "photos");
+        EmbeddedWrapper photos = new EmbeddedWrappers(true).wrap(photoResources, PHOTOS);
         Resources resources = new Resources(Arrays.asList(photos));
         resource.setPhotos(resources);
         return resource;

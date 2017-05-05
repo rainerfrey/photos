@@ -51,6 +51,7 @@ public class PhotoStorageService {
             photo.setCollectionId(collectionId);
             photo = photoRepository.insert(photo);
             backendNotifier.newPhoto(photo);
+            frontendNotifier.photoUpdated(photo, "original uploaded");
             logger.info("New photo {} uploaded, with title {}, saved as {}", photo.getFileName(), photo.getTitle(), photo.getId());
 //            frontendNotifier.newPhoto(photo);
             return photo;
