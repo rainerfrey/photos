@@ -124,7 +124,24 @@ public class AuthServerApplication {
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-            clients.inMemory().withClient("photo-ui").authorizedGrantTypes("password", "refresh_token").autoApprove(true).scopes("photo-ui");
+            clients.inMemory()
+                    .withClient("photo-ui")
+                        .authorizedGrantTypes("password", "refresh_token")
+                        .autoApprove(true)
+                        .scopes("photo-ui")
+                    .and()
+                    .withClient("metadata-extractor")
+                        .authorizedGrantTypes("client_credentials", "refresh_token")
+                        .scopes("images")
+                        .autoApprove(true)
+                        .secret("secret")
+                    .and()
+                    .withClient("image-scaler")
+                        .authorizedGrantTypes("client_credentials", "refresh_token")
+                        .scopes("images")
+                        .autoApprove(true)
+                        .secret("secret")
+            ;
         }
 
         @Override

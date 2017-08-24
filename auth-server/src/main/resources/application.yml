@@ -20,3 +20,8 @@ eureka:
 security:
   oauth2:
     authorization.token-key-access: "permitAll()"
+logging:
+  level:
+    com.netflix.discovery.DiscoveryClient: WARN
+
+
