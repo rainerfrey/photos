@@ -30,7 +30,6 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @SpringBootApplication
@@ -42,7 +41,7 @@ public class AuthServerApplication {
     }
 
     @Bean
-    public FilterRegistrationBean corsFilter() {
+    public FilterRegistrationBean globalCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -57,6 +56,7 @@ public class AuthServerApplication {
 
     @Configuration
     public static class AuthWebConfiguration extends WebSecurityConfigurerAdapter {
+
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.inMemoryAuthentication()
