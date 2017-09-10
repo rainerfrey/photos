@@ -1,6 +1,6 @@
 {
   "name": "photo-ui",
   "dependencies": {
-    "sockjs-client": "^1.1.2"
+    "sockjs-client": "^1.1.4"
   }
 }
