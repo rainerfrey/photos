@@ -1,20 +1,18 @@
-<form class="xc_login-form" onsubmit={{action login username password}}>
-    <div class="form-group">
-        <div class="xc_input-group input-group">
-            <div class="xc_login-input-group-addon input-group-addon"><span class="glyphicon glyphicon-envelope"></span>
-            </div>
-            {{input value=username type="text" placeholder="Username" class="form-control login-user" id="username"}}
+<div class="form-group">
+    <div class="xc_input-group input-group">
+        <div class="xc_login-input-group-addon input-group-addon"><span class="glyphicon glyphicon-envelope"></span>
         </div>
+        {{input value=username type="text" placeholder="Username" class="form-control login-user" id="username"}}
     </div>
-    <div class="form-group">
-        <div class="xc_input-group input-group">
-            <div class="xc_login-input-group-addon input-group-addon"><span class="glyphicon glyphicon-asterisk"></span>
-            </div>
-            {{input value=password type="password" placeholder="Passwort" class="form-control login-password"
-                    id="password"}}
+</div>
+<div class="form-group">
+    <div class="xc_input-group input-group">
+        <div class="xc_login-input-group-addon input-group-addon"><span class="glyphicon glyphicon-asterisk"></span>
         </div>
+        {{input value=password type="password" placeholder="Passwort" class="form-control login-password"
+                id="password"}}
     </div>
-    <div class="form-group">
-        {{input type="submit" class="xc_btn btn btn-primary xc_login-button" value="Login" id="submit_button"}}
-    </div>
-</form>
+</div>
+<div class="form-group">
+    {{input type="submit" class="xc_btn btn btn-primary xc_login-button" value="Login" id="submit_button"}}
+</div>
