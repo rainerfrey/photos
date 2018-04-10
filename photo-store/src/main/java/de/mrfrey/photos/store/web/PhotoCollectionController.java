@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/photo-collections")
@@ -46,9 +47,9 @@ public class PhotoCollectionController {
     }
     @GetMapping("/{id}")
     public PhotoCollectionResource get(@PathVariable("id") ObjectId id) {
-        PhotoCollection photoCollection = photoCollectionRepository.findOne(id);
-        if (photoCollection != null) {
-            return new PhotoCollectionResourceAssembler(photoStorageService).toResource(photoCollection);
+        Optional<PhotoCollection> photoCollection = photoCollectionRepository.findById( id);
+        if (photoCollection.isPresent()) {
+            return new PhotoCollectionResourceAssembler(photoStorageService).toResource(photoCollection.get());
         } else
             throw new CollectionNotFound(id);
     }

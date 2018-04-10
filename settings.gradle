@@ -5,4 +5,3 @@ include 'photo-store',
         'zipkin-collector',
         'eureka-server',
         'auth-server'
-

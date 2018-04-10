@@ -34,8 +34,7 @@ public class ImageController {
     @GetMapping("/{imageSize}")
     @ResponseBody
     public ResponseEntity<StreamingResponseBody> getImage(@PathVariable("photoId") ObjectId photoId, @PathVariable("imageSize") Photo.Size imageSize) {
-        GridFsResource image = photoStorageService.getImageResource(photoId, imageSize);
-        if (image == null) throw new ImageNotFound(photoId, imageSize);
+        GridFsResource image = photoStorageService.getImageResource(photoId, imageSize).orElseThrow( () -> new ImageNotFound(photoId, imageSize) );
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.parseMediaType(image.getContentType()))
