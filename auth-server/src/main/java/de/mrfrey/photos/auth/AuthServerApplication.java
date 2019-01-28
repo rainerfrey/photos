@@ -36,21 +36,21 @@ import java.nio.file.Paths;
 @EnableDiscoveryClient
 public class AuthServerApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AuthServerApplication.class, args);
+    public static void main( String[] args ) {
+        SpringApplication.run( AuthServerApplication.class, args );
     }
 
     @Bean
     public FilterRegistrationBean globalCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+        config.setAllowCredentials( true );
+        config.addAllowedOrigin( "*" );
+        config.addAllowedHeader( "*" );
+        config.addAllowedMethod( "*" );
+        source.registerCorsConfiguration( "/**", config );
+        FilterRegistrationBean bean = new FilterRegistrationBean( new CorsFilter( source ) );
+        bean.setOrder( Ordered.HIGHEST_PRECEDENCE + 1 );
         return bean;
     }
 
@@ -58,11 +58,11 @@ public class AuthServerApplication {
     public static class AuthWebConfiguration extends WebSecurityConfigurerAdapter {
 
         @Override
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
             auth.inMemoryAuthentication()
-                    .withUser("rainer").password("secret").roles("ADMIN", "USER").and()
-                    .withUser("stefan").password("secret").roles("USER").and()
-                    .withUser("michael").password("secret").roles("GUEST")
+                .withUser( "rainer" ).password( "secret" ).roles( "ADMIN", "USER", "ACTUATOR" ).and()
+                .withUser( "stefan" ).password( "secret" ).roles( "USER" ).and()
+                .withUser( "michael" ).password( "secret" ).roles( "GUEST" )
             ;
         }
 
@@ -73,19 +73,19 @@ public class AuthServerApplication {
         }
 
         @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic();
+        protected void configure( HttpSecurity http ) throws Exception {
+            http.csrf().disable().sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ).and().httpBasic();
         }
     }
 
     @Configuration
     @EnableAuthorizationServer
-    @EnableConfigurationProperties(AuthorizationServerProperties.class)
+    @EnableConfigurationProperties( AuthorizationServerProperties.class )
     static class AuthServerConfiguration extends AuthorizationServerConfigurerAdapter {
-        @Value("${key.private.file}")
+        @Value( "${key.private.file}" )
         private String privateKeyFile;
 
-        @Value("${key.public.file}")
+        @Value( "${key.public.file}" )
         private String publicKeyFile;
 
         @Autowired
@@ -95,16 +95,16 @@ public class AuthServerApplication {
         private AuthenticationManager authenticationManager;
 
         @Override
-        public void configure(AuthorizationServerSecurityConfigurer security)
-                throws Exception {
-            if (this.properties.getCheckTokenAccess() != null) {
-                security.checkTokenAccess(this.properties.getCheckTokenAccess());
+        public void configure( AuthorizationServerSecurityConfigurer security )
+            throws Exception {
+            if ( this.properties.getCheckTokenAccess() != null ) {
+                security.checkTokenAccess( this.properties.getCheckTokenAccess() );
             }
-            if (this.properties.getTokenKeyAccess() != null) {
-                security.tokenKeyAccess(this.properties.getTokenKeyAccess());
+            if ( this.properties.getTokenKeyAccess() != null ) {
+                security.tokenKeyAccess( this.properties.getTokenKeyAccess() );
             }
-            if (this.properties.getRealm() != null) {
-                security.realm(this.properties.getRealm());
+            if ( this.properties.getRealm() != null ) {
+                security.realm( this.properties.getRealm() );
             }
         }
 
@@ -112,45 +112,45 @@ public class AuthServerApplication {
         @Bean
         public JwtAccessTokenConverter accessTokenConverter() throws IOException {
             JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-            converter.setSigningKey(new String(Files.readAllBytes(Paths.get(privateKeyFile))));
-            converter.setVerifierKey(new String(Files.readAllBytes(Paths.get(publicKeyFile))));
+            converter.setSigningKey( new String( Files.readAllBytes( Paths.get( privateKeyFile ) ) ) );
+            converter.setVerifierKey( new String( Files.readAllBytes( Paths.get( publicKeyFile ) ) ) );
             return converter;
         }
 
         @Bean
         public TokenStore tokenStore() throws IOException {
-            return new JwtTokenStore(accessTokenConverter());
+            return new JwtTokenStore( accessTokenConverter() );
         }
 
         @Override
-        public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        public void configure( ClientDetailsServiceConfigurer clients ) throws Exception {
             clients.inMemory()
-                    .withClient("photo-ui")
-                        .authorizedGrantTypes("password", "refresh_token")
-                        .autoApprove(true)
-                        .scopes("photo-ui")
-                    .and()
-                    .withClient("metadata-extractor")
-                        .authorizedGrantTypes("client_credentials", "refresh_token")
-                        .scopes("images")
-                        .autoApprove(true)
-                        .secret("secret")
-                    .and()
-                    .withClient("image-scaler")
-                        .authorizedGrantTypes("client_credentials", "refresh_token")
-                        .scopes("images")
-                        .autoApprove(true)
-                        .secret("secret")
+                   .withClient( "photo-ui" )
+                   .authorizedGrantTypes( "password", "refresh_token" )
+                   .autoApprove( true )
+                   .scopes( "photo-ui" )
+                   .and()
+                   .withClient( "metadata-extractor" )
+                   .authorizedGrantTypes( "client_credentials" )
+                   .scopes( "images" )
+                   .autoApprove( true )
+                   .secret( "secret" )
+                   .and()
+                   .withClient( "image-scaler" )
+                   .authorizedGrantTypes( "client_credentials" )
+                   .scopes( "images" )
+                   .autoApprove( true )
+                   .secret( "secret" )
             ;
         }
 
         @Override
-        public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        public void configure( AuthorizationServerEndpointsConfigurer endpoints ) throws Exception {
             endpoints
-                    .accessTokenConverter(accessTokenConverter())
-                    .tokenStore(tokenStore())
-                    .tokenEnhancer(accessTokenConverter())
-                    .authenticationManager(authenticationManager)
+                .accessTokenConverter( accessTokenConverter() )
+                .tokenStore( tokenStore() )
+                .tokenEnhancer( accessTokenConverter() )
+                .authenticationManager( authenticationManager )
             ;
         }
     }
