@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.6.RELEASE'
+		springBootVersion = '2.0.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -12,6 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 
 ext {
@@ -26,6 +27,9 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.spring.io/libs-snapshot'
+	}
 }
 
 
@@ -33,10 +37,12 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.cloud:spring-cloud-starter')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
-	compile('org.springframework.cloud:spring-cloud-starter-eureka')
-	compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+	compile('org.springframework.cloud:spring-cloud-stream')
+	compile('org.springframework.cloud:spring-cloud-stream-binder-rabbit')
 	compile('org.springframework.boot:spring-boot-starter-integration')
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
+	compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE'
 	compile('org.springframework.security.oauth:spring-security-oauth2')
 	compile('org.springframework.security:spring-security-jwt')
 	compile('com.jayway.jsonpath:json-path')
@@ -48,6 +54,6 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Dalston.SR3"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.M8"
 	}
 }

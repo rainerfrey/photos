@@ -20,7 +20,7 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
-import static org.springframework.integration.dsl.support.Transformers.toJson;
+import static org.springframework.integration.dsl.Transformers.toJson;
 
 @SpringBootApplication
 @EnableBinding(Processor.class)
