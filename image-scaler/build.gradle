@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.RELEASE'
+		springBootVersion = '2.1.2.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -15,21 +15,25 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 jar {
-	baseName = 'image-scaler'
 	version = '1.0.0'
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = "11"
+targetCompatibility = "11"
 
 repositories {
 	mavenCentral()
-	maven {
-		url 'https://repo.spring.io/libs-snapshot'
-	}
 }
 
 
 dependencies {
+	modules {
+		module("com.sun.xml.bind:jaxb-core") {
+			replacedBy("org.glassfish.jaxb:jaxb-runtime")
+		}
+		module("com.sun.xml.bind:jaxb-impl") {
+			replacedBy("org.glassfish.jaxb:jaxb-runtime")
+		}
+	}
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.cloud:spring-cloud-starter')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
@@ -41,6 +45,7 @@ dependencies {
 	compile('com.jayway.jsonpath:json-path')
 	compile('org.imgscalr:imgscalr-lib:4.2')
 	compile('com.drewnoakes:metadata-extractor:2.9.1')
+	compile "org.glassfish.jaxb:jaxb-runtime"
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -48,6 +53,6 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.M8"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE"
 	}
 }

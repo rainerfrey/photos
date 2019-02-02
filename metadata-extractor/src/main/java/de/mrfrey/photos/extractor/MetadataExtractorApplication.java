@@ -11,6 +11,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -44,6 +45,7 @@ public class MetadataExtractorApplication {
     }
 
     @Bean
+    @Primary
     public IntegrationFlow newPhoto(Processor processor, MetadataExtractor extractor, Logger logger, Jackson2ObjectMapperBuilder objectMapperBuilder) {
         Jackson2JsonObjectMapper jsonObjectMapper = new Jackson2JsonObjectMapper(objectMapperBuilder.build());
         return IntegrationFlows

@@ -2,6 +2,5 @@ rootProject.name = 'photos'
 include 'photo-store',
         'metadata-extractor',
         'image-scaler',
-        'zipkin-collector',
         'eureka-server',
         'auth-server'
