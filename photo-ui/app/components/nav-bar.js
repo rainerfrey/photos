@@ -1,7 +1,9 @@
-import Ember from "ember";
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-    currentUser: Ember.inject.service(),
-    photoUpdates: Ember.inject.service(),
-    user: Ember.computed.alias("currentUser.user.name")
+export default Component.extend({
+    currentUser: service(),
+    photoUpdates: service(),
+    user: alias("currentUser.user.name")
 });

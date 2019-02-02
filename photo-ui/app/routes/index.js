@@ -1,8 +1,9 @@
-import Ember from "ember";
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from "ember-simple-auth/mixins/authenticated-route-mixin";
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, {
-    photoUpdates: Ember.inject.service(),
+export default Route.extend(AuthenticatedRouteMixin, {
+    photoUpdates: service(),
 
     init() {
         this._super(...arguments);

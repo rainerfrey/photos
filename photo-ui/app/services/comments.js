@@ -1,11 +1,12 @@
+import Service, { inject as service } from '@ember/service';
 import Ember from "ember";
 import Comment from "photo-ui/models/comment";
 
 const MAX_UPDATES = 10;
 
-export default Ember.Service.extend({
-    stomp: Ember.inject.service(),
-    events: Ember.inject.service(),
+export default Service.extend({
+    stomp: service(),
+    events: service(),
     liveComments: null,
 
     init() {

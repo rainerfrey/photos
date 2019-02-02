@@ -1,8 +1,8 @@
-import Ember from "ember";
+import { alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import DS from "ember-data";
 const {attr} = DS;
-const {computed, isPresent} = Ember;
-const {alias} = computed;
 
 export default DS.Model.extend({
     fileName: attr("string"),

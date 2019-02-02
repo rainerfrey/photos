@@ -1,9 +1,9 @@
-import Ember from "ember";
+import $ from 'jquery';
 
 export default {
     name: "corsOptions",
     initialize: function () {
-        Ember.$.ajaxPrefilter(function (options) {
+        $.ajaxPrefilter(function (options) {
             if (!options.xhrFields) {
                 options.xhrFields = {};
             }

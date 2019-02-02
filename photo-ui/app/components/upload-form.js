@@ -1,10 +1,14 @@
+import { inject as service } from '@ember/service';
+import Evented from '@ember/object/evented';
+import Component from '@ember/component';
+import { isPresent, isEmpty } from '@ember/utils';
+import { computed } from '@ember/object';
 import Ember from "ember";
 import EmberUploader from "ember-uploader";
 import ENV from "photo-ui/config/environment";
-const {isEmpty, isPresent, computed} = Ember;
 
-export default Ember.Component.extend(Ember.Evented, {
-    session: Ember.inject.service(),
+export default Component.extend(Evented, {
+    session: service(),
     files: null,
     selected: computed("files.[]", function () {
         let files = this.get("files");

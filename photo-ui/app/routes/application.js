@@ -1,21 +1,25 @@
+import { alias } from '@ember/object/computed';
+import EmberObject from '@ember/object';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import Ember from "ember";
 import ApplicationRouteMixin from "ember-simple-auth/mixins/application-route-mixin";
 
-export default Ember.Route.extend(ApplicationRouteMixin, {
-    session: Ember.inject.service(),
-    events: Ember.inject.service(),
-    ajax: Ember.inject.service(),
-    updates: Ember.inject.service("photo-updates"),
-    comments: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
+export default Route.extend(ApplicationRouteMixin, {
+    session: service(),
+    events: service(),
+    ajax: service(),
+    updates: service("photo-updates"),
+    comments: service(),
+    currentUser: service(),
     root: null,
 
     model() {
         this._loadCurrentUser().then(() => {
             this.get("events").trigger("loggedIn");
         });
-        return Ember.Object.create({
-            isAuthenticated: Ember.computed.alias("session.isAuthenticated"),
+        return EmberObject.create({
+            isAuthenticated: alias("session.isAuthenticated"),
             updates: this.get("updates.myUpdates"),
             newPhotos: this.get("updates.newPhotos"),
             liveComments: this.get("comments.liveComments")

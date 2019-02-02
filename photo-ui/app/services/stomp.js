@@ -1,3 +1,7 @@
+import { Promise } from 'rsvp';
+import { A } from '@ember/array';
+import { equal } from '@ember/object/computed';
+import Service, { inject as service } from '@ember/service';
 import Ember from "ember";
 import Stomp from "stompjs";
 import SockJS from "sockjs";
@@ -11,16 +15,16 @@ const States = {
 
 const MAX_RECONNECT_COUNT = 3;
 
-export default Ember.Service.extend({
-    events: Ember.inject.service(),
-    session: Ember.inject.service(),
+export default Service.extend({
+    events: service(),
+    session: service(),
     subscriptions: null,
     connectionPromise: null,
     connected: States.DISCONNECTED,
     reconnectCount: 0,
 
-    isConnected: Ember.computed.equal("connected", States.CONNECTED),
-    isConnecting: Ember.computed.equal("connected", States.CONNECTING),
+    isConnected: equal("connected", States.CONNECTED),
+    isConnecting: equal("connected", States.CONNECTING),
 
     messagingSocketURL: function () {
         let token = "";
@@ -31,7 +35,7 @@ export default Ember.Service.extend({
     },
 
     init: function () {
-        this.subscriptions = Ember.A();
+        this.subscriptions = A();
         this.get("events").on("loggedIn", this, this.start);
         // this.get("session").on("authenticationSucceeded", this, this.start);
         // this.start();
@@ -92,7 +96,7 @@ export default Ember.Service.extend({
         let url = this.messagingSocketURL();
         let socket = new SockJS(url);
         let stompClient = Stomp.over(socket);
-        return new Ember.RSVP.Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             stompClient.connect({}, () => {
                 this.set("connected", States.CONNECTED);
                 this.set("reconnectCount", 0);
