@@ -6,12 +6,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
     comments: service(),
 
     model(params) {
-        return this.get("store").findRecord("photo", params.id);
+        return this.store.findRecord("photo", params.id);
     },
 
     actions: {
         comment(photo, comment) {
-            this.get("comments").comment(photo, comment);
+            this.comments.comment(photo, comment);
         }
     }
 });

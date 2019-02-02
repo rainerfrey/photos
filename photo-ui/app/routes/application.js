@@ -16,7 +16,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
     model() {
         this._loadCurrentUser().then(() => {
-            this.get("events").trigger("loggedIn");
+            this.events.trigger("loggedIn");
         });
         return EmberObject.create({
             isAuthenticated: alias("session.isAuthenticated"),
@@ -33,12 +33,12 @@ export default Route.extend(ApplicationRouteMixin, {
     },
 
     _loadCurrentUser() {
-        return this.get('currentUser').load();
+        return this.currentUser.load();
     },
 
     actions: {
         logout() {
-            this.get("session").invalidate();
+            this.session.invalidate();
         }
     }
 });

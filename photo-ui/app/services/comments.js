@@ -12,8 +12,8 @@ export default Service.extend({
     init() {
         this._super(...arguments);
         this.set("liveComments", []);
-        this.get("events").on("stompStarted", () => {
-            this.get("stomp").subscribe("/topic/comments", this.onMessage, this);
+        this.events.on("stompStarted", () => {
+            this.stomp.subscribe("/topic/comments", this.onMessage, this);
         });
     },
 
@@ -22,12 +22,12 @@ export default Service.extend({
             photoId: photo.get("id"),
             comment: comment
         };
-        this.get("stomp").send("/app/comments", message);
+        this.stomp.send("/app/comments", message);
     },
 
     onMessage(message) {
         Ember.Logger.info(message);
-        let target = this.get("liveComments");
+        let target = this.liveComments;
         target.pushObject(Comment.create(message));
         if (target.get("length") > MAX_UPDATES) {
             target.shiftObject();

@@ -17,7 +17,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/components/upload-form.js` at line 76
+**Location**: `app/components/upload-form.js` at line 80
 
 ```js
                 reader.readAsDataURL(files[0]);
@@ -31,7 +31,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/components/upload-form.js` at line 79
+**Location**: `app/components/upload-form.js` at line 83
 
 ```js
         },
@@ -45,105 +45,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/services/comments.js` at line 28
-
-```js
-
-    onMessage(message) {
-        Ember.Logger.info(message);
-        let target = this.get("liveComments");
-        target.pushObject(Comment.create(message));
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/services/current-user.js` at line 14
-
-```js
-                resolve(user);
-            }).catch((error) => {
-                Ember.Logger.error(JSON.stringify(error));
-                if (isUnauthorizedError(error) && this.get('session.isAuthenticated')) {
-                    this.get('session').invalidate();
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/services/stomp.js` at line 56
-
-```js
-            }
-            else {
-                Ember.Logger.error("STOMP subscription failed permanently for ", target);
-            }
-        });
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/services/stomp.js` at line 69
-
-```js
-            }
-            else {
-                Ember.Logger.error("STOMP sending failed permanently for ", target);
-            }
-        });
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/services/stomp.js` at line 99
-
-```js
-                this.set("connected", States.CONNECTED);
-                this.set("reconnectCount", 0);
-                Ember.Logger.info("Stomp connected to: ", url);
-                resolve(stompClient);
-            }, (error) => {
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/services/stomp.js` at line 103
-
-```js
-            }, (error) => {
-                this.set("connected", States.DISCONNECTED);
-                Ember.Logger.error("Connection error on: ", url, error);
-                reject(error);
-            });
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/services/photo-updates.js` at line 44
-
-```js
-
-    onError(message) {
-        Ember.Logger.warn(JSON.stringify(message));
-    }
-});
-```
-
-### Unknown Global
-
-**Global**: `Ember.Logger`
-
-**Location**: `app/routes/application.js` at line 27
+**Location**: `app/routes/application.js` at line 31
 
 ```js
     sessionAuthenticated() {
@@ -157,7 +59,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/login.js` at line 9
+**Location**: `app/routes/login.js` at line 11
 
 ```js
     actions: {
@@ -171,7 +73,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/login.js` at line 11
+**Location**: `app/routes/login.js` at line 13
 
 ```js
             Ember.Logger.info("Logging in");
@@ -185,7 +87,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/login.js` at line 12
+**Location**: `app/routes/login.js` at line 14
 
 ```js
             return this.get("session").authenticate("authenticator:oauth2", username, password, "photo-ui").then(() => {
@@ -199,7 +101,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/login.js` at line 15
+**Location**: `app/routes/login.js` at line 17
 
 ```js
                 this.get("events").trigger("loggedIn");
@@ -213,7 +115,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/photo-collection.js` at line 16
+**Location**: `app/routes/photo-collection.js` at line 18
 
 ```js
 
@@ -227,7 +129,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/photo-collection.js` at line 18
+**Location**: `app/routes/photo-collection.js` at line 20
 
 ```js
         Ember.Logger.log("photo-collection#onPhotoUpdate");
@@ -241,7 +143,7 @@
 
 **Global**: `Ember.Logger`
 
-**Location**: `app/routes/photo-collection.js` at line 20
+**Location**: `app/routes/photo-collection.js` at line 22
 
 ```js
             Ember.Logger.log("photo-collection#onPhotoUpdate photo loaded " + photo.get("id"));
@@ -249,4 +151,102 @@
                 Ember.Logger.log("photo-collection#onPhotoUpdate matched collection, refresh");
                 this.refresh();
             }
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/comments.js` at line 29
+
+```js
+
+    onMessage(message) {
+        Ember.Logger.info(message);
+        let target = this.get("liveComments");
+        target.pushObject(Comment.create(message));
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/current-user.js` at line 16
+
+```js
+                resolve(user);
+            }).catch((error) => {
+                Ember.Logger.error(JSON.stringify(error));
+                if (isUnauthorizedError(error) && this.get('session.isAuthenticated')) {
+                    this.get('session').invalidate();
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/photo-updates.js` at line 46
+
+```js
+
+    onError(message) {
+        Ember.Logger.warn(JSON.stringify(message));
+    }
+});
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/stomp.js` at line 61
+
+```js
+            }
+            else {
+                Ember.Logger.error("STOMP subscription failed permanently for ", target);
+            }
+        });
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/stomp.js` at line 74
+
+```js
+            }
+            else {
+                Ember.Logger.error("STOMP sending failed permanently for ", target);
+            }
+        });
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/stomp.js` at line 104
+
+```js
+                this.set("connected", States.CONNECTED);
+                this.set("reconnectCount", 0);
+                Ember.Logger.info("Stomp connected to: ", url);
+                resolve(stompClient);
+            }, (error) => {
+```
+
+### Unknown Global
+
+**Global**: `Ember.Logger`
+
+**Location**: `app/services/stomp.js` at line 108
+
+```js
+            }, (error) => {
+                this.set("connected", States.DISCONNECTED);
+                Ember.Logger.error("Connection error on: ", url, error);
+                reject(error);
+            });
 ```

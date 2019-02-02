@@ -37,22 +37,22 @@ export default Service.extend({
     init: function () {
         this._super(...arguments);
         this.subscriptions = A();
-        this.get("events").on("loggedIn", this, this.start);
+        this.events.on("loggedIn", this, this.start);
         // this.get("session").on("authenticationSucceeded", this, this.start);
         // this.start();
     },
 
     start: function () {
         this.set("connectionPromise", this._doConnect());
-        if (this.get("connectionPromise") !== null) {
-            this.get("events").trigger("stompStarted");
+        if (this.connectionPromise !== null) {
+            this.events.trigger("stompStarted");
         }
     },
 
     subscribe: function (target, action, context) {
-        this.get("connectionPromise").then((client) => {
+        this.connectionPromise.then((client) => {
             let subscription = this._doSubscribe(client, target, action, context);
-            this.get("subscriptions").pushObject(subscription);
+            this.subscriptions.pushObject(subscription);
         }).catch((error) => {
             if (this._reconnect()) {
                 this.subscribe(target, action, context);
@@ -64,7 +64,7 @@ export default Service.extend({
     },
 
     send: function (target, message) {
-        this.get("connectionPromise").then((client => {
+        this.connectionPromise.then((client => {
             this._doSend(client, target, message);
         })).catch((error) => {
             if (this._reconnect()) {
@@ -90,8 +90,8 @@ export default Service.extend({
     },
 
     _doConnect: function () {
-        if (this.get("isConnecting")) {
-            return this.get("connectionPromise");
+        if (this.isConnecting) {
+            return this.connectionPromise;
         }
         this.set("connected", States.CONNECTING);
         let url = this.messagingSocketURL();
@@ -113,7 +113,7 @@ export default Service.extend({
 
     _reconnect: function () {
         this.incrementProperty("reconnectCount");
-        if (this.get("reconnectCount") <= MAX_RECONNECT_COUNT) {
+        if (this.reconnectCount <= MAX_RECONNECT_COUNT) {
             this.set("connectionPromise", this._doConnect());
             return true;
         }

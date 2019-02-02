@@ -11,7 +11,7 @@ export default Component.extend(Evented, {
     session: service(),
     files: null,
     selected: computed("files.[]", function () {
-        let files = this.get("files");
+        let files = this.files;
         if (isPresent(files)) {
             return files[0];
         }
@@ -22,10 +22,10 @@ export default Component.extend(Evented, {
     previewUrl: null,
 
     doUpload() {
-        let files = this.get("files");
+        let files = this.files;
         if (!isEmpty(files)) {
             let headers = {};
-            this.get("session").authorize("authorizer:oauth2", (name, value) => {
+            this.session.authorize("authorizer:oauth2", (name, value) => {
                 headers[name] = value;
             });
             let uploader = EmberUploader.Uploader.create({
@@ -40,9 +40,9 @@ export default Component.extend(Evented, {
                 this.set("previewUrl", null);
             });
 
-            let title = this.get("title");
-            let caption = this.get("caption");
-            let collection = this.get("collection");
+            let title = this.title;
+            let caption = this.caption;
+            let collection = this.collection;
 
             let extra = {};
             if (isPresent(title)) {
@@ -56,7 +56,7 @@ export default Component.extend(Evented, {
             }
             // this second argument is optional and can to be sent as extra data with the upload
             uploader.upload(files[0], extra).then(data=>{
-                let onUpload = this.get("onUploadSubmitted");
+                let onUpload = this.onUploadSubmitted;
                 if(onUpload) {
                     onUpload(data);
                 }

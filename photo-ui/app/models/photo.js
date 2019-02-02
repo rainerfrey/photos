@@ -17,12 +17,12 @@ export default DS.Model.extend({
     scaledUrl: alias("links.image:scaled"),
     originalUrl: alias("links.image:original"),
     displayName: computed("title", "fileName", function () {
-        let title = this.get("title");
+        let title = this.title;
         if (isPresent(title)) {
             return title;
         }
         else {
-            return this.get("fileName");
+            return this.fileName;
         }
     })
 });

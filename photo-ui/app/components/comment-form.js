@@ -4,7 +4,7 @@ export default Component.extend({
     comment: null,
     actions: {
         doComment() {
-            this.get("comment-action")(this.get("photo"), this.get("comment"));
+            this["comment-action"](this.photo, this.comment);
             this.set("comment", null);
         }
     }

@@ -8,15 +8,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     init() {
         this._super(...arguments);
-        this.get("photoUpdates").on("newPhoto", this, this.onPhotoUpdate);
+        this.photoUpdates.on("newPhoto", this, this.onPhotoUpdate);
     },
     model(params) {
-        return this.get("store").findRecord("photoCollection", params.id, {reload: true});
+        return this.store.findRecord("photoCollection", params.id, {reload: true});
     },
 
     onPhotoUpdate(update) {
         Ember.Logger.log("photo-collection#onPhotoUpdate");
-        this.get("store").findRecord("photo", update.get("photoId"), {reload: true}).then(photo => {
+        this.store.findRecord("photo", update.get("photoId"), {reload: true}).then(photo => {
             Ember.Logger.log("photo-collection#onPhotoUpdate photo loaded " + photo.get("id"));
             if (photo.get("collectionId") === this.currentModel.get("id")) {
                 Ember.Logger.log("photo-collection#onPhotoUpdate matched collection, refresh");

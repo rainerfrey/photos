@@ -7,7 +7,7 @@ export default Component.extend({
     password: null,
 
     submit() {
-        this.get("loginAction")(this.get("username"), this.get("password"));
+        this.loginAction(this.username, this.password);
         return false;
     }
 });

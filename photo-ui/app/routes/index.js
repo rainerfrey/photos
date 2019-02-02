@@ -7,13 +7,13 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     init() {
         this._super(...arguments);
-        this.get("photoUpdates").on("newPhoto", () => {
+        this.photoUpdates.on("newPhoto", () => {
             this.refresh();
         });
     },
 
     model() {
-        return this.get("store").findAll("photo", {reload: true}).then((photos) => {
+        return this.store.findAll("photo", {reload: true}).then((photos) => {
             return photos.get("lastObject");
         });
     }

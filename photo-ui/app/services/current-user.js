@@ -9,13 +9,13 @@ export default Service.extend({
 
     load() {
         return new Promise((resolve, reject) => {
-            this.get("ajax").request("/user").then((user) => {
+            this.ajax.request("/user").then((user) => {
                 this.set("user", user);
                 resolve(user);
             }).catch((error) => {
                 Ember.Logger.error(JSON.stringify(error));
                 if (isUnauthorizedError(error) && this.get('session.isAuthenticated')) {
-                    this.get('session').invalidate();
+                    this.session.invalidate();
                 }
                 reject(error);
             });

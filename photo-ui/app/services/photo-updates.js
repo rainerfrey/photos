@@ -16,23 +16,23 @@ export default Service.extend(Evented, {
         this._super(...arguments);
         this.set("newPhotos", []);
         this.set("myUpdates", []);
-        this.get("events").on("stompStarted", () => {
-            this.get("stomp").subscribe("/app/count", (m) => {
+        this.events.on("stompStarted", () => {
+            this.stomp.subscribe("/app/count", (m) => {
                 this.set("myCount", m.count);
             }, this);
-            this.get("stomp").subscribe("/topic/photos", this.newPhoto, this);
-            this.get("stomp").subscribe("/user/exchange/amq.direct/photo.update", this.photoUpdate, this);
-            this.get("stomp").subscribe("/user/exchange/amq.direct/errors", this.onError, this);
+            this.stomp.subscribe("/topic/photos", this.newPhoto, this);
+            this.stomp.subscribe("/user/exchange/amq.direct/photo.update", this.photoUpdate, this);
+            this.stomp.subscribe("/user/exchange/amq.direct/errors", this.onError, this);
         });
     },
 
     newPhoto(message) {
-        this.updateList(message, this.get("newPhotos"));
+        this.updateList(message, this.newPhotos);
         this.trigger("newPhoto", Update.create(message));
     },
 
     photoUpdate(message) {
-        this.updateList(message, this.get("myUpdates"));
+        this.updateList(message, this.myUpdates);
     },
 
     updateList(message, target) {

@@ -3,7 +3,7 @@ import AuthenticatedRouteMixin from "ember-simple-auth/mixins/authenticated-rout
 
 export default Route.extend(AuthenticatedRouteMixin, {
     model() {
-        return this.get("store").createRecord("photoCollection");
+        return this.store.createRecord("photoCollection");
     },
 
     actions: {
