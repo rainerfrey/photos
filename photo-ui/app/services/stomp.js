@@ -35,6 +35,7 @@ export default Service.extend({
     },
 
     init: function () {
+        this._super(...arguments);
         this.subscriptions = A();
         this.get("events").on("loggedIn", this, this.start);
         // this.get("session").on("authenticationSucceeded", this, this.start);
