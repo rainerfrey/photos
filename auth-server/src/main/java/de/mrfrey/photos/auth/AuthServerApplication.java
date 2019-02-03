@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -59,10 +61,11 @@ public class AuthServerApplication {
 
         @Override
         protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
+            PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
             auth.inMemoryAuthentication()
-                .withUser( "rainer" ).password( "secret" ).roles( "ADMIN", "USER", "ACTUATOR" ).and()
-                .withUser( "stefan" ).password( "secret" ).roles( "USER" ).and()
-                .withUser( "michael" ).password( "secret" ).roles( "GUEST" )
+                .withUser( "rainer" ).password( encoder.encode( "secret" ) ).roles( "ADMIN", "USER", "ACTUATOR" ).and()
+                .withUser( "stefan" ).password( encoder.encode( "secret" ) ).roles( "USER" ).and()
+                .withUser( "michael" ).password( encoder.encode( "secret" ) ).roles( "GUEST" )
             ;
         }
 
@@ -129,18 +132,19 @@ public class AuthServerApplication {
                    .authorizedGrantTypes( "password", "refresh_token" )
                    .autoApprove( true )
                    .scopes( "photo-ui" )
+                   .secret( "{noop}" )
                    .and()
                    .withClient( "metadata-extractor" )
                    .authorizedGrantTypes( "client_credentials" )
                    .scopes( "images" )
                    .autoApprove( true )
-                   .secret( "secret" )
+                   .secret( "{noop}secret" )
                    .and()
                    .withClient( "image-scaler" )
                    .authorizedGrantTypes( "client_credentials" )
                    .scopes( "images" )
                    .autoApprove( true )
-                   .secret( "secret" )
+                   .secret( "{noop}secret" )
             ;
         }
 
