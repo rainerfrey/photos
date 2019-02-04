@@ -2,7 +2,6 @@ import { Promise } from 'rsvp';
 import { A } from '@ember/array';
 import { equal } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
-import Ember from "ember";
 import Stomp from "stompjs";
 import SockJS from "sockjs";
 import ENV from "photo-ui/config/environment";
@@ -58,7 +57,7 @@ export default Service.extend({
                 this.subscribe(target, action, context);
             }
             else {
-                Ember.Logger.error("STOMP subscription failed permanently for ", target);
+                console.error("STOMP subscription failed permanently for ", target);
             }
         });
     },
@@ -71,7 +70,7 @@ export default Service.extend({
                 this.send(target, message);
             }
             else {
-                Ember.Logger.error("STOMP sending failed permanently for ", target);
+                console.error("STOMP sending failed permanently for ", target);
             }
         });
     },
@@ -101,11 +100,11 @@ export default Service.extend({
             stompClient.connect({}, () => {
                 this.set("connected", States.CONNECTED);
                 this.set("reconnectCount", 0);
-                Ember.Logger.info("Stomp connected to: ", url);
+                console.info("Stomp connected to: ", url);
                 resolve(stompClient);
             }, (error) => {
                 this.set("connected", States.DISCONNECTED);
-                Ember.Logger.error("Connection error on: ", url, error);
+                console.error("Connection error on: ", url, error);
                 reject(error);
             });
         });

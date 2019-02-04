@@ -2,7 +2,6 @@ import { alias } from '@ember/object/computed';
 import EmberObject from '@ember/object';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import Ember from "ember";
 import ApplicationRouteMixin from "ember-simple-auth/mixins/application-route-mixin";
 
 export default Route.extend(ApplicationRouteMixin, {
@@ -28,7 +27,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
     sessionAuthenticated() {
         this._super(...arguments);
-        Ember.Logger.info("Session authenticated");
+        console.info("Session authenticated");
         this._loadCurrentUser();
     },
 

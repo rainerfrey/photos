@@ -1,6 +1,5 @@
 import Evented from '@ember/object/evented';
 import Service, { inject as service } from '@ember/service';
-import Ember from "ember";
 import Update from "photo-ui/models/update";
 
 const MAX_UPDATES = 10;
@@ -43,6 +42,6 @@ export default Service.extend(Evented, {
     },
 
     onError(message) {
-        Ember.Logger.warn(JSON.stringify(message));
+        console.warn(JSON.stringify(message));
     }
 });

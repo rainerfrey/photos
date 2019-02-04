@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-import Ember from "ember";
 import Comment from "photo-ui/models/comment";
 
 const MAX_UPDATES = 10;
@@ -26,7 +25,7 @@ export default Service.extend({
     },
 
     onMessage(message) {
-        Ember.Logger.info(message);
+        console.info(message);
         let target = this.liveComments;
         target.pushObject(Comment.create(message));
         if (target.get("length") > MAX_UPDATES) {

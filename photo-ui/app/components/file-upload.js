@@ -1,4 +1,3 @@
-import Ember from "ember";
 import EmberUploader from "ember-uploader";
 
 export default EmberUploader.FileField.extend({
@@ -7,7 +6,7 @@ export default EmberUploader.FileField.extend({
     },
     didInsertElement() {
         this.uploadEvents.on("didUpload", () => {
-            Ember.Logger.log("file-upload: didUpload called");
+            console.log("file-upload: didUpload called");
             this.$().val(null);
         });
     }
