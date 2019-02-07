@@ -8,7 +8,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     actions: {
         create(collection) {
-            return collection.save().then((newCollection)=> {this.transitionTo("photoCollection", newCollection.id);});
+            return collection.save().then((newCollection)=> {this.transitionTo("photo-collection", newCollection.id);});
         },
 
         willTransition() {

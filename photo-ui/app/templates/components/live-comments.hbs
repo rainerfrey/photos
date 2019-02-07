@@ -4,7 +4,8 @@
     </div>
     <ul class="list-group">
         {{#each comments as |comment|}}
-            <li class="list-group-item">({{link-to comment.photoId "photo" comment.photoId}})
+            <li class="list-group-item">
+                ({{link-to comment.photoId "photo" comment.photoId}})
                 <strong>{{comment.user}}</strong>:
                 {{comment.comment}}
             </li>

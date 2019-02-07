@@ -2,7 +2,7 @@
     {{#each collections as |collection|}}
         <li class="list-group-item">
             {{#link-to "photo-collection" collection.id}}
-                <img src="{{collection.photos.firstObject.thumbnailUrl}}"/> {{collection.title}} by {{collection.owner}}
+                <img src={{collection.photos.firstObject.thumbnailUrl}} alt={{collection.title}}> {{collection.title}} by {{collection.owner}}
             {{/link-to}}
         </li>
     {{/each}}

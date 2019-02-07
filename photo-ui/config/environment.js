@@ -23,6 +23,9 @@ module.exports = function(environment) {
     },
     PHOTOS: {
       serviceUrl: 'http://localhost:8080'
+    },
+    'g-map': {
+      key: ''
     }
   };
 

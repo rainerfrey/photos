@@ -4,7 +4,8 @@
     </div>
     <ul class="list-group collapse in" id="commentList">
         {{#each comments as |comment|}}
-            <li class="list-group-item"><strong>{{comment.user}}</strong>:
+            <li class="list-group-item">
+                <strong>{{comment.user}}</strong>:
                 {{comment.comment}}
             </li>
         {{/each}}
