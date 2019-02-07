@@ -73,7 +73,7 @@ public class PhotoStorageService {
     }
 
     public Optional<GridFsResource> getImageResource( ObjectId photoId, Photo.Size size ) {
-        return photoRepository.findById( photoId ).map( photo -> getImageFor( photo, size ) ).map( GridFsResource::new );
+        return photoRepository.findById( photoId ).map( photo -> getImageFor( photo, size ) ).map( gridfs::getResource );
     }
 
     private GridFSFile getImageFor( Photo photo, Photo.Size size ) {
