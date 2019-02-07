@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -21,45 +22,47 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
+import static org.springframework.integration.dsl.Transformers.fromJson;
 import static org.springframework.integration.dsl.Transformers.toJson;
 
 @SpringBootApplication
-@EnableBinding(Processor.class)
+@EnableBinding( Processor.class )
 @EnableDiscoveryClient
 public class MetadataExtractorApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MetadataExtractorApplication.class, args);
+    public static void main( String[] args ) {
+        SpringApplication.run( MetadataExtractorApplication.class, args );
     }
 
     @Bean
-    @Scope("prototype")
-    public Logger logger(InjectionPoint ip) {
-        return LoggerFactory.getLogger(ip.getMember().getDeclaringClass());
+    @Scope( "prototype" )
+    public Logger logger( InjectionPoint ip ) {
+        return LoggerFactory.getLogger( ip.getMember().getDeclaringClass() );
     }
 
     @LoadBalanced
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate(new BufferingClientHttpRequestFactory(new HttpComponentsClientHttpRequestFactory()));
+    public RestTemplate restTemplate( RestTemplateBuilder builder ) {
+        return builder.requestFactory( () -> new BufferingClientHttpRequestFactory( new HttpComponentsClientHttpRequestFactory() ) ).build();
     }
 
     @Bean
     @Primary
-    public IntegrationFlow newPhoto(Processor processor, MetadataExtractor extractor, Logger logger, Jackson2ObjectMapperBuilder objectMapperBuilder) {
-        Jackson2JsonObjectMapper jsonObjectMapper = new Jackson2JsonObjectMapper(objectMapperBuilder.build());
+    public IntegrationFlow newPhoto( Processor processor, MetadataExtractor extractor, Logger logger, Jackson2ObjectMapperBuilder objectMapperBuilder ) {
+        Jackson2JsonObjectMapper jsonObjectMapper = new Jackson2JsonObjectMapper( objectMapperBuilder.build() );
         return IntegrationFlows
-                .from(processor.input())
-                .enrichHeaders(e -> e.headerExpression("photo-id", "payload"))
-                .wireTap(sf -> sf.handle(m -> logger.info(m.toString())))
-                .handle(String.class, (payload, headers) ->
-                        extractor.extractMetadata(payload)
-                )
-                .transform(toJson(jsonObjectMapper))
-                .wireTap(sf ->
-                        sf.handle(m -> logger.info(m.toString()))
-                )
-                .channel(processor.output())
-                .get();
+            .from( processor.input() )
+            .log()
+            .transform( String.class, String::new )
+            .log()
+            .enrichHeaders( e -> e.headerExpression( "photo-id", "payload" ) )
+            .log()
+            .handle( String.class, ( payload, headers ) ->
+                extractor.extractMetadata( payload )
+            )
+            .transform( toJson( jsonObjectMapper ) )
+            .log()
+            .channel( processor.output() )
+            .get();
     }
 }
