@@ -6,6 +6,7 @@ spring:
         input:
           destination: new-photo
           group: metadata-extractor
+          content-type: application/json
         output:
           destination: new-metadata
           content-type: application/json

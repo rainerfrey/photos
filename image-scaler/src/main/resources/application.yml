@@ -6,6 +6,7 @@ spring:
         input:
           destination: new-photo
           group: image-scaler
+          content-type: application/json
       rabbit:
         bindings:
           input:
