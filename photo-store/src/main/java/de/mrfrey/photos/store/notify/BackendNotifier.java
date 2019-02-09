@@ -13,13 +13,13 @@ public class BackendNotifier {
     private final MessageChannel newPhotoChannel;
 
     @Autowired
-    public BackendNotifier(Processor processor) {
+    public BackendNotifier( Processor processor ) {
         this.newPhotoChannel = processor.output();
     }
 
-    public void newPhoto(Photo photo) {
-        Message<String> message = MessageBuilder.withPayload(photo.getId().toString()).build();
-        newPhotoChannel.send(message);
+    public void newPhoto( Photo photo ) {
+        Message<String> message = MessageBuilder.withPayload( photo.getId().toString() ).build();
+        newPhotoChannel.send( message );
     }
 
 }

@@ -98,27 +98,46 @@ public class PhotoStorageService {
     }
 
     public void addAdditionalImage( ObjectId photoId, InputStream image, Photo.Size size ) {
-        photoRepository.findById( photoId ).ifPresentOrElse( photo -> {
-            String scaledFileName = getAdditionalFileName( photo.getFileName(), size );
-            ObjectId scaled = gridfs.store( image, scaledFileName, photo.getContentType() );
-            switch ( size ) {
-                case original:
-                    photo.setFileId( scaled );
-                    break;
-                case scaled:
-                    photo.setScaledFileId( scaled );
-                    break;
-                case thumbnail:
-                    photo.setThumbnailFileId( scaled );
-                    break;
-            }
-            photoRepository.save( photo );
-            logger.info( "Image of size {} received for {}", size, photoId );
-            frontendNotifier.photoUpdated( photo, String.format( "%s image added", size ) );
-            photoCompleted( photo );
-        }, () ->
-            logger.error( "Photo {} for received image of size {} does not exist", photoId, size )
-        );
+        photoRepository
+            .findById( photoId )
+            .ifPresentOrElse( photo -> {
+                                  if ( getImageFor( photo, size ) != null ) {
+                                      logger.info( "Replace image size {} for {}", size, photoId );
+                                      deleteFile( getImageId( photo, size ) );
+                                  }
+                                  String scaledFileName = getAdditionalFileName( photo.getFileName(), size );
+                                  ObjectId scaled = gridfs.store( image, scaledFileName, photo.getContentType() );
+                                  switch ( size ) {
+                                      case original:
+                                          photo.setFileId( scaled );
+                                          break;
+                                      case scaled:
+                                          photo.setScaledFileId( scaled );
+                                          break;
+                                      case thumbnail:
+                                          photo.setThumbnailFileId( scaled );
+                                          break;
+                                  }
+                                  photoRepository.save( photo );
+                                  logger.info( "Image of size {} received for {}", size, photoId );
+                                  frontendNotifier.photoUpdated( photo, String.format( "%s image added", size ) );
+                                  photoCompleted( photo );
+                              }, () ->
+                                  logger.error( "Photo {} for received image of size {} does not exist", photoId, size )
+            );
+    }
+
+    public void deletePhoto( ObjectId photoId, String owner ) {
+        photoRepository.findById( photoId ).filter( photo -> photo.getOwner().equals( owner ) ).ifPresentOrElse( photo -> {
+            deleteFile( photo.getThumbnailFileId() );
+            deleteFile( photo.getScaledFileId() );
+            deleteFile( photo.getFileId() );
+            photoRepository.delete( photo );
+        }, () -> logger.info( "Photo {} does not exist", photoId ) );
+    }
+
+    private void deleteFile( ObjectId id ) {
+        gridfs.delete( Query.query( Criteria.where( "_id" ).is( id ) ) );
     }
 
     private String getAdditionalFileName( String originalFileName, Photo.Size size ) {
@@ -157,5 +176,14 @@ public class PhotoStorageService {
 
     public int countForUser( String name ) {
         return photoRepository.countByOwner( name );
+    }
+
+    public void reprocessPhoto( ObjectId photoId, ImageCommand command, Photo.Size applyToSize, String user ) {
+        photoRepository.findById( photoId ).filter( photo -> photo.getOwner().equals( user ) ).ifPresent( photo -> {
+            logger.info( "Reprocess {} requested for {}", command, photoId );
+            if ( command == ImageCommand.ALL ) {
+                backendNotifier.newPhoto( photo );
+            }
+        } );
     }
 }

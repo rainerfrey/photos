@@ -115,6 +115,14 @@ table.collapse.in {
     margin-right: auto;
   }
 }
+.image-footer {
+    display: flex;
+    justify-content: space-between;
+    .glyphicon {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}
 
 .full-size-link {
   float: right;

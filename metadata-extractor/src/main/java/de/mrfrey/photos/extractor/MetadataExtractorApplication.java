@@ -48,7 +48,7 @@ public class MetadataExtractorApplication {
 
     @Bean
     @Primary
-    public IntegrationFlow newPhoto( Processor processor, MetadataExtractor extractor, Logger logger, Jackson2ObjectMapperBuilder objectMapperBuilder ) {
+    public IntegrationFlow newPhoto( Processor processor, MetadataExtractor extractor, Jackson2ObjectMapperBuilder objectMapperBuilder ) {
         Jackson2JsonObjectMapper jsonObjectMapper = new Jackson2JsonObjectMapper( objectMapperBuilder.build() );
         return IntegrationFlows
             .from( processor.input() )

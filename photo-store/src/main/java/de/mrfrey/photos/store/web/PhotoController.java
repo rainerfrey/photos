@@ -6,9 +6,11 @@ import org.bson.types.ObjectId;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.core.EmbeddedWrappers;
-import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,9 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @Controller
 @RequestMapping( "/photos" )
@@ -63,12 +67,24 @@ public class PhotoController {
         return Collections.singletonMap( "photoId", photo.getId().toString() );
     }
 
+    @MessageMapping( "/reprocess/{id}" )
+    public void reprocessPhoto( @DestinationVariable( "id" ) ObjectId photoId, ReprocessRequest reprocessRequest, Principal user ) {
+        photoStorageService.reprocessPhoto( photoId, reprocessRequest.getCommand(), reprocessRequest.getSize(), user.getName() );
+    }
+
+
+    @DeleteMapping( "/{id}" )
+    @ResponseStatus( NO_CONTENT )
+    public void delete( @PathVariable( "id" ) ObjectId id, Principal user ) {
+        photoStorageService.deletePhoto( id, user.getName() );
+    }
+
     @SubscribeMapping( "/count" )
     public Map myPhotoCount( Principal user ) {
         return Collections.singletonMap( "count", photoStorageService.countForUser( user.getName() ) );
     }
 
-    @ResponseStatus( HttpStatus.NOT_FOUND )
+    @ResponseStatus( NOT_FOUND )
     public static class PhotoNotFound extends RuntimeException {
         public PhotoNotFound( ObjectId id ) {
             super( String.format( "Photo %s not found", id ) );
